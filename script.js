@@ -1,5 +1,21 @@
 /* Hafez Fortune Wheel JavaScript - Enhanced */
 
+// Yalda Night themed icons and their rotation angles
+const YALDA_ICONS = [
+    { symbol: '🌙', rotation: 0 },
+    { symbol: '🍇', rotation: 15 },
+    { symbol: '🕯️', rotation: 0 },
+    { symbol: '🍎', rotation: 0 },
+    { symbol: '❤️', rotation: 0 },
+    { symbol: '⭐', rotation: 0 },
+    { symbol: '🌟', rotation: 0 },
+    { symbol: '💫', rotation: 0 },
+    { symbol: '✨', rotation: 0 },
+    { symbol: '🔥', rotation: 0 },
+    { symbol: '🌾', rotation: 0 },
+    { symbol: '🥜', rotation: 0 }
+];
+
 class FortuneWheel {
     constructor(canvasId, spellText = false) {
         this.canvas = document.getElementById(canvasId);
@@ -133,12 +149,15 @@ class FortuneWheel {
 
     displayFortune(segmentIndex) {
         const fortune = poems[segmentIndex];
-        const fortuneNumber = document.getElementById('fortuneNumber');
+        const fortuneIcon = document.getElementById('fortuneIcon');
         const fortuneText = document.getElementById('fortuneText');
         const fortuneTranslation = document.getElementById('fortuneTranslation');
         const fortuneTheme = document.getElementById('fortuneTheme');
 
-        fortuneNumber.textContent = `#${fortune.number}`;
+        // Get random Yalda icon
+        const randomIcon = YALDA_ICONS[Math.floor(Math.random() * YALDA_ICONS.length)];
+        fortuneIcon.innerHTML = `<span class="yalda-icon">${randomIcon.symbol}</span>`;
+        
         fortuneText.textContent = fortune.farsi;
         fortuneTheme.textContent = `Theme: ${fortune.theme}`;
         fortuneTranslation.textContent = fortune.english;
