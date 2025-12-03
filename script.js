@@ -1,16 +1,168 @@
-/* Hafez Fortune Wheel & Yalda Night Game - Enhanced */
+/* Hafez Fortune Wheel & Yalda Night Trivia - Enhanced */
 
-// Game Card Pairs - Yalda Night Themed
-const gameCardPairs = [
-    { emoji: '🌙', label: 'Moon' },
-    { emoji: '🍇', label: 'Grapes' },
-    { emoji: '🕯️', label: 'Candle' },
-    { emoji: '🍎', label: 'Pomegranate' },
-    { emoji: '❤️', label: 'Love' },
-    { emoji: '⭐', label: 'Star' }
+// Yalda & Persian Trivia Questions
+const triviaQuestions = [
+    {
+        question: "What does 'Yalda' mean?",
+        choices: ["Birth", "Light", "Night", "Fire"],
+        correct: 0,
+        explanation: "Yalda means 'birth' in Aramaic, symbolizing the rebirth of the sun after the longest night."
+    },
+    {
+        question: "Which Persian poet's work is traditionally used for Hafez Faal?",
+        choices: ["Rumi", "Hafez", "Saadi", "Ferdowsi"],
+        correct: 1,
+        explanation: "Hafez (1315-1390) is the master of the Faal tradition, with his Divan containing ~500 mystical ghazals."
+    },
+    {
+        question: "What fruit symbolizes the sun on Yalda Night?",
+        choices: ["Watermelon", "Pomegranate", "Apple", "Orange"],
+        correct: 1,
+        explanation: "The pomegranate's red seeds symbolize the sun and the life force of rebirth during Yalda."
+    },
+    {
+        question: "On which date does Yalda Night occur?",
+        choices: ["December 20-21", "March 20-21", "September 22-23", "June 20-21"],
+        correct: 0,
+        explanation: "Yalda marks the winter solstice, the longest night of the year, around December 20-21."
+    },
+    {
+        question: "Which nut is traditionally eaten during Yalda Night?",
+        choices: ["Cashew", "Pistachio", "Almond", "Walnut"],
+        correct: 1,
+        explanation: "Pistachios are a classic and beloved treat during Yalda celebrations in Persian culture."
+    },
+    {
+        question: "How many Ghazals (poems) does Hafez's Divan contain?",
+        choices: ["Around 200", "Around 300", "Around 500", "Around 700"],
+        correct: 2,
+        explanation: "The Divan of Hafez contains approximately 500 lyrical poems called Ghazals."
+    },
+    {
+        question: "What is the main purpose of staying awake on Yalda Night?",
+        choices: ["To celebrate the harvest", "To greet the new sun at dawn", "To prepare for winter", "To light fires"],
+        correct: 1,
+        explanation: "The vigil through the longest night celebrates the triumph of light and waiting for the sun's return."
+    },
+    {
+        question: "Which city was Hafez born in?",
+        choices: ["Isfahan", "Shiraz", "Tehran", "Tabriz"],
+        correct: 1,
+        explanation: "Hafez was born in Shiraz, Iran, one of the great centers of Persian culture and poetry."
+    },
+    {
+        question: "What is 'Sofreh Yalda'?",
+        choices: ["A prayer", "A ceremonial spread of fruits and nuts", "A song", "A ritual fire"],
+        correct: 1,
+        explanation: "Sofreh Yalda is the sacred table spread with fruits, nuts, and sweets for the celebration."
+    },
+    {
+        question: "Which element represents the eternal light on Yalda Night?",
+        choices: ["Stars", "Candles and Fire", "Pomegranate juice", "Gold coins"],
+        correct: 1,
+        explanation: "Candles and fire symbolize the eternal light and the sun's triumph over darkness."
+    }
 ];
 
-// Yalda Night themed icons and their rotation angles
+// Trivia Game Class
+class TriviaGame {
+    constructor(containerId, questionId, choicesId, feedbackId, nextBtnId) {
+        this.container = document.getElementById(containerId);
+        this.questionEl = document.getElementById(questionId);
+        this.choicesEl = document.getElementById(choicesId);
+        this.feedbackEl = document.getElementById(feedbackId);
+        this.nextBtn = document.getElementById(nextBtnId);
+        
+        this.currentQuestion = 0;
+        this.score = 0;
+        this.answered = false;
+        this.totalQuestions = triviaQuestions.length;
+        
+        this.shuffleQuestions();
+        this.render();
+        this.nextBtn.addEventListener('click', () => this.nextQuestion());
+    }
+    
+    shuffleQuestions() {
+        this.questions = [...triviaQuestions].sort(() => Math.random() - 0.5);
+    }
+    
+    render() {
+        if (this.currentQuestion >= this.totalQuestions) {
+            this.showResults();
+            return;
+        }
+        
+        const q = this.questions[this.currentQuestion];
+        this.questionEl.textContent = q.question;
+        this.choicesEl.innerHTML = '';
+        this.feedbackEl.innerHTML = '';
+        this.nextBtn.style.display = 'none';
+        this.answered = false;
+        
+        q.choices.forEach((choice, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'trivia-choice';
+            btn.textContent = choice;
+            btn.onclick = () => this.selectAnswer(idx, q);
+            this.choicesEl.appendChild(btn);
+        });
+    }
+    
+    selectAnswer(selectedIdx, question) {
+        if (this.answered) return;
+        
+        this.answered = true;
+        const buttons = this.choicesEl.querySelectorAll('.trivia-choice');
+        
+        buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === question.correct) {
+                btn.classList.add('correct');
+            } else if (idx === selectedIdx && idx !== question.correct) {
+                btn.classList.add('incorrect');
+            }
+        });
+        
+        if (selectedIdx === question.correct) {
+            this.score++;
+            this.feedbackEl.innerHTML = `<span class="trivia-correct">✓ Correct!</span><span class="trivia-explanation">${question.explanation}</span>`;
+        } else {
+            this.feedbackEl.innerHTML = `<span class="trivia-incorrect">✗ Incorrect</span><span class="trivia-explanation">${question.explanation}</span>`;
+        }
+        
+        this.nextBtn.style.display = 'inline-block';
+    }
+    
+    nextQuestion() {
+        this.currentQuestion++;
+        this.render();
+    }
+    
+    showResults() {
+        const percentage = Math.round((this.score / this.totalQuestions) * 100);
+        let message = '';
+        
+        if (percentage === 100) {
+            message = 'Perfect! You are a true master of Yalda wisdom! 🎉';
+        } else if (percentage >= 80) {
+            message = 'Excellent! You have deep knowledge of Persian traditions! 🌟';
+        } else if (percentage >= 60) {
+            message = 'Good! You know quite a bit about Yalda Night! 🌙';
+        } else if (percentage >= 40) {
+            message = 'Nice effort! There\'s always more to learn about Yalda! 📚';
+        } else {
+            message = 'Keep exploring the beauty of Yalda traditions! 🌙✨';
+        }
+        
+        this.questionEl.textContent = `You scored ${this.score}/${this.totalQuestions} (${percentage}%)`;
+        this.choicesEl.innerHTML = '';
+        this.feedbackEl.innerHTML = `<span class="trivia-finish">${message}</span>`;
+        this.nextBtn.style.display = 'none';
+    }
+}
+
+// Yalda Night themed icons for wheel
 const YALDA_ICONS = [
     { symbol: '🌙', rotation: 0 },
     { symbol: '🍇', rotation: 15 },
@@ -25,98 +177,6 @@ const YALDA_ICONS = [
     { symbol: '🌾', rotation: 0 },
     { symbol: '🥜', rotation: 0 }
 ];
-
-// Memory Game Class
-class MemoryGame {
-    constructor(boardId, resetBtnId, matchesId, movesId) {
-        this.board = document.getElementById(boardId);
-        this.resetBtn = document.getElementById(resetBtnId);
-        this.matchesDisplay = document.getElementById(matchesId);
-        this.movesDisplay = document.getElementById(movesId);
-        
-        this.cards = [];
-        this.flipped = [];
-        this.matched = 0;
-        this.moves = 0;
-        
-        this.init();
-    }
-    
-    init() {
-        this.board.innerHTML = '';
-        this.cards = [];
-        this.flipped = [];
-        this.matched = 0;
-        this.moves = 0;
-        this.updateDisplay();
-        
-        // Create pairs
-        const pairs = [...gameCardPairs, ...gameCardPairs];
-        pairs.sort(() => Math.random() - 0.5);
-        
-        pairs.forEach((pair, index) => {
-            const card = document.createElement('div');
-            card.className = 'game-card';
-            card.dataset.emoji = pair.emoji;
-            card.dataset.label = pair.label;
-            card.textContent = '?';
-            card.addEventListener('click', () => this.flipCard(card));
-            
-            this.board.appendChild(card);
-            this.cards.push(card);
-        });
-        
-        this.resetBtn.addEventListener('click', () => this.init());
-    }
-    
-    flipCard(card) {
-        if (card.classList.contains('flipped') || card.classList.contains('matched') || this.flipped.length >= 2) {
-            return;
-        }
-        
-        card.classList.add('flipped');
-        card.textContent = card.dataset.emoji;
-        this.flipped.push(card);
-        
-        if (this.flipped.length === 2) {
-            this.moves++;
-            this.updateDisplay();
-            this.checkMatch();
-        }
-    }
-    
-    checkMatch() {
-        const [card1, card2] = this.flipped;
-        const isMatch = card1.dataset.emoji === card2.dataset.emoji;
-        
-        if (isMatch) {
-            card1.classList.add('matched');
-            card2.classList.add('matched');
-            this.matched++;
-            this.updateDisplay();
-            this.flipped = [];
-            
-            if (this.matched === gameCardPairs.length) {
-                setTimeout(() => {
-                    alert('Congratulations! You matched all pairs! 🎉');
-                }, 300);
-            }
-        } else {
-            setTimeout(() => {
-                card1.classList.remove('flipped');
-                card2.classList.remove('flipped');
-                card1.textContent = '?';
-                card2.textContent = '?';
-                this.flipped = [];
-            }, 600);
-        }
-    }
-    
-    updateDisplay() {
-        this.matchesDisplay.textContent = `${this.matched}/${gameCardPairs.length}`;
-        this.movesDisplay.textContent = this.moves;
-    }
-}
 
 class FortuneWheel {
     constructor(canvasId, spellText = false) {
@@ -337,13 +397,19 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize wheel when page loads
+// Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Memory Game
-    const game = new MemoryGame('gameBoard', 'gameResetBtn', 'matches', 'moves');
-    
     // Initialize Fortune Wheel
     const wheel = new FortuneWheel('wheelCanvas');
+    
+    // Initialize Trivia Game
+    const trivia = new TriviaGame(
+        'trivia-container',
+        'trivia-question',
+        'trivia-choices',
+        'trivia-feedback',
+        'trivia-next-btn'
+    );
     
     // Smooth scroll navigation
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

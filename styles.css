@@ -11,6 +11,7 @@
     --text-light: #f0f0f0;
     --text-muted: #a0a0a0;
     --pomegranate: #dc2626;
+    --pomegranate-dark: #991b1b;
     --midnight: #0f172a;
 }
 
@@ -1270,5 +1271,327 @@ section h2 {
     .game-board {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+    }
+}
+
+/* ========== POMEGRANATE LUXURY THEME ========== */
+
+.chic-pomegranate {
+    background: linear-gradient(135deg, rgba(26, 3, 15, 0.9) 0%, rgba(196, 30, 58, 0.3) 50%, rgba(212, 175, 55, 0.1) 100%);
+    border-top: 4px double var(--accent-gold);
+    border-bottom: 4px double var(--accent-gold);
+    position: relative;
+    box-shadow: 0 0 80px 20px rgba(196, 30, 58, 0.15) inset;
+}
+
+.chic-pomegranate-game {
+    background: linear-gradient(135deg, rgba(26, 3, 15, 0.95) 0%, rgba(140, 26, 26, 0.4) 50%, rgba(212, 175, 55, 0.08) 100%);
+    border-top: 4px double var(--accent-gold);
+    border-bottom: 4px double var(--accent-gold);
+    position: relative;
+    box-shadow: 0 0 60px 15px rgba(196, 30, 58, 0.1) inset;
+}
+
+.fancy-title {
+    font-size: 2.8rem;
+    color: var(--accent-gold);
+    text-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 20px rgba(196, 30, 58, 0.4);
+    letter-spacing: 3px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.fancy-btn {
+    background: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-gold) 100%);
+    color: #fff;
+    border: 2px solid var(--accent-gold);
+    border-radius: 30px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 0 25px rgba(196, 30, 58, 0.4), 0 0 15px rgba(212, 175, 55, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.fancy-btn:hover {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-red) 100%);
+    color: #000;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 25px rgba(196, 30, 58, 0.5);
+    transform: scale(1.08);
+}
+
+.fancy-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Pomegranate Ornament */
+.pomegranate-ornament {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at 35% 35%, #ff6b9d 0%, var(--accent-red) 50%, var(--pomegranate-dark) 100%);
+    border-radius: 50%;
+    margin: 0 auto 30px auto;
+    box-shadow: 
+        0 0 60px rgba(196, 30, 58, 0.7),
+        0 0 0 15px rgba(212, 175, 55, 0.3),
+        inset 0 0 40px rgba(0, 0, 0, 0.4);
+    border: 4px solid var(--accent-gold);
+    animation: pomegranateGlow 3s ease-in-out infinite;
+    position: relative;
+}
+
+.pomegranate-ornament::before {
+    content: '🍎';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3.5rem;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+}
+
+@keyframes pomegranateGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 60px rgba(196, 30, 58, 0.7),
+            0 0 0 15px rgba(212, 175, 55, 0.3),
+            inset 0 0 40px rgba(0, 0, 0, 0.4);
+    }
+    50% {
+        box-shadow: 
+            0 0 100px rgba(196, 30, 58, 0.9),
+            0 0 0 20px rgba(212, 175, 55, 0.5),
+            inset 0 0 50px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Enhanced Wheel Container */
+.wheel-main-section .wheel-container {
+    background: radial-gradient(circle at 40% 40%, rgba(212, 175, 55, 0.3) 0%, rgba(196, 30, 58, 0.2) 100%);
+    border: 6px solid var(--accent-gold);
+    box-shadow: 
+        0 0 100px rgba(212, 175, 55, 0.5),
+        0 0 0 20px rgba(196, 30, 58, 0.2),
+        inset 0 0 60px rgba(196, 30, 58, 0.15);
+}
+
+.wheel-main-section #wheelCanvas {
+    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.4));
+}
+
+/* Trivia Game Styling */
+.trivia-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.trivia-container {
+    background: rgba(93, 58, 132, 0.25);
+    border: 3px solid var(--accent-gold);
+    border-radius: 25px;
+    padding: 40px 35px;
+    max-width: 650px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 50px rgba(196, 30, 58, 0.2),
+        0 0 0 12px rgba(212, 175, 55, 0.15) inset;
+}
+
+.trivia-question {
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    line-height: 1.6;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.trivia-choices {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.trivia-choice {
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.8) 0%, rgba(212, 175, 55, 0.5) 100%);
+    color: #fff;
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 16px 20px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    box-shadow: 0 0 15px rgba(196, 30, 58, 0.3);
+}
+
+.trivia-choice:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.8) 0%, rgba(196, 30, 58, 0.6) 100%);
+    color: #000;
+    transform: translateX(8px);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+}
+
+.trivia-choice:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.trivia-choice.correct {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #ffd700 100%);
+    color: #000;
+    border-color: var(--accent-red);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+}
+
+.trivia-choice.incorrect {
+    background: linear-gradient(135deg, var(--accent-red) 0%, var(--pomegranate-dark) 100%);
+    color: #fff;
+    opacity: 0.7;
+    box-shadow: 0 0 20px rgba(196, 30, 58, 0.5);
+}
+
+.trivia-feedback {
+    min-height: 60px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.trivia-correct {
+    color: var(--accent-gold);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.trivia-incorrect {
+    color: #ff6b9d;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.trivia-explanation {
+    color: var(--text-light);
+    font-style: italic;
+    display: block;
+    font-size: 0.95rem;
+}
+
+.trivia-finish {
+    color: var(--accent-gold);
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    display: block;
+}
+
+.trivia-next-btn {
+    margin-top: 15px;
+}
+
+/* Mobile Responsiveness for Trivia & Wheel */
+@media (max-width: 768px) {
+    .chic-pomegranate,
+    .chic-pomegranate-game {
+        padding: 50px 15px;
+    }
+    
+    .fancy-title {
+        font-size: 1.8rem;
+    }
+    
+    .pomegranate-ornament {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .pomegranate-ornament::before {
+        font-size: 2.5rem;
+    }
+    
+    .trivia-container {
+        padding: 25px 20px;
+        max-width: 90vw;
+    }
+    
+    .trivia-question {
+        font-size: 1.2rem;
+    }
+    
+    .trivia-choice {
+        font-size: 1rem;
+        padding: 14px 16px;
+    }
+    
+    .trivia-feedback {
+        font-size: 0.95rem;
+    }
+    
+    .wheel-main-section .wheel-container {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .fancy-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chic-pomegranate,
+    .chic-pomegranate-game {
+        padding: 30px 10px;
+    }
+    
+    .fancy-title {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .pomegranate-ornament {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 20px;
+    }
+    
+    .pomegranate-ornament::before {
+        font-size: 2rem;
+    }
+    
+    .trivia-container {
+        padding: 20px 15px;
+    }
+    
+    .trivia-question {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    .trivia-choice {
+        font-size: 0.9rem;
+        padding: 12px 14px;
+    }
+    
+    .wheel-main-section .wheel-container {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .fancy-btn {
+        padding: 10px 25px;
+        font-size: 0.95rem;
     }
 }

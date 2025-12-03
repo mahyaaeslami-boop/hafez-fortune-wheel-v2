@@ -221,38 +221,15 @@
         </div>
     </section>
 
-    <!-- Interactive Yalda Card Game Section -->
-    <section id="game" class="game-section">
-        <div class="section-container">
-            <h2 class="section-title">Night's Wisdom Game</h2>
-            <p class="game-intro">Test your knowledge and intuition with the Yalda Night wisdom game. Match the symbols with their meanings!</p>
-            
-            <div class="game-container">
-                <div class="game-board" id="gameBoard"></div>
-                <div class="game-stats">
-                    <div class="stat">
-                        <span class="stat-label">Matched:</span>
-                        <span class="stat-value" id="matches">0/6</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">Moves:</span>
-                        <span class="stat-value" id="moves">0</span>
-                    </div>
-                    <button class="game-reset-btn" id="gameResetBtn">Reset Game</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Interactive Wheel Section -->
-    <section id="wheel" class="wheel-main-section">
+    <section id="wheel" class="wheel-main-section chic-pomegranate">
         <div class="section-container">
             <h2 class="section-title">Spin the Fortune Wheel</h2>
             <p class="wheel-intro-text">
                 Think of a question or intention, then spin the wheel to receive a message from Hafez. 
                 Each poem is selected from his top 100 greatest works, translated with love and care.
             </p>
-            
+            <div class="wheel-ornament pomegranate-ornament"></div>
             <div class="wheel-content">
                 <div class="wheel-left">
                     <div class="wheel-container">
@@ -276,6 +253,23 @@
                         <div class="fortune-divider"></div>
                         <div class="fortune-translation" id="fortuneTranslation"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Yalda Persian Trivia Section -->
+    <section id="game" class="game-section chic-pomegranate-game">
+        <div class="section-container">
+            <h2 class="section-title fancy-title">Yalda & Persian Trivia</h2>
+            <p class="game-intro">Test your knowledge of Yalda Night, Persian culture, and Hafez wisdom!</p>
+            
+            <div class="trivia-wrapper">
+                <div class="trivia-container">
+                    <div id="trivia-question" class="trivia-question"></div>
+                    <div id="trivia-choices" class="trivia-choices"></div>
+                    <div id="trivia-feedback" class="trivia-feedback"></div>
+                    <button id="trivia-next-btn" class="trivia-next-btn fancy-btn" style="display:none;">Next Question</button>
                 </div>
             </div>
         </div>
