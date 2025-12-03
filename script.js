@@ -64,7 +64,7 @@ const triviaQuestions = [
     }
 ];
 
-// Trivia Game Class with Timer
+// Trivia Game Class with Timer & Winner Tracking
 class TriviaGame {
     constructor(containerId, questionId, choicesId, feedbackId, nextBtnId) {
         this.container = document.getElementById(containerId);
@@ -72,6 +72,13 @@ class TriviaGame {
         this.choicesEl = document.getElementById(choicesId);
         this.feedbackEl = document.getElementById(feedbackId);
         this.nextBtn = document.getElementById(nextBtnId);
+        
+        this.quizIntro = document.getElementById('quiz-intro');
+        this.quizGame = document.getElementById('quiz-game');
+        this.quizResults = document.getElementById('quiz-results');
+        this.playerNameInput = document.getElementById('playerName');
+        this.quizStartBtn = document.getElementById('quiz-start-btn');
+        this.quizRestartBtn = document.getElementById('quiz-restart-btn');
         
         this.currentQuestion = 0;
         this.score = 0;
@@ -81,11 +88,50 @@ class TriviaGame {
         this.totalTime = this.totalQuestions * this.timePerQuestion;
         this.timeRemaining = this.totalTime;
         this.timerInterval = null;
+        this.gameActive = false;
+        this.playerName = '';
+        
+        this.setupEventListeners();
+        this.showIntro();
+    }
+    
+    setupEventListeners() {
+        this.quizStartBtn.addEventListener('click', () => this.startQuiz());
+        this.quizRestartBtn.addEventListener('click', () => this.restart());
+        this.playerNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.startQuiz();
+        });
+    }
+    
+    showIntro() {
+        this.quizIntro.style.display = 'flex';
+        this.quizGame.style.display = 'none';
+        this.quizResults.style.display = 'none';
+        this.playerNameInput.value = '';
+        this.playerNameInput.focus();
+    }
+    
+    startQuiz() {
+        this.playerName = this.playerNameInput.value.trim();
+        
+        if (!this.playerName) {
+            alert('Please enter your name to begin!');
+            return;
+        }
+        
+        this.currentQuestion = 0;
+        this.score = 0;
+        this.answered = false;
         this.gameActive = true;
+        this.timeRemaining = this.totalTime;
+        
+        this.quizIntro.style.display = 'none';
+        this.quizGame.style.display = 'block';
+        this.quizResults.style.display = 'none';
+        
         this.shuffleQuestions();
         this.startTimer();
         this.render();
-        this.nextBtn.addEventListener('click', () => this.nextQuestion());
     }
     
     startTimer() {
@@ -140,6 +186,11 @@ class TriviaGame {
         
         const q = this.questions[this.currentQuestion];
         this.questionEl.textContent = q.question;
+        
+        // Update progress
+        const progressEl = document.getElementById('quiz-current');
+        if (progressEl) progressEl.textContent = this.currentQuestion + 1;
+        
         this.choicesEl.innerHTML = '';
         this.feedbackEl.innerHTML = '';
         this.nextBtn.style.display = 'none';
@@ -199,32 +250,92 @@ class TriviaGame {
         const percentage = Math.round((this.score / this.totalQuestions) * 100);
         let message = '';
         let emoji = '';
+        let isWinner = this.score >= 8; // 8+ correct answers = winner
         
         if (percentage === 100) {
-            message = 'Perfect! You are a true master of Yalda wisdom! 🎉';
+            message = 'PERFECT! 🎉 You are a true master of Yalda wisdom!';
             emoji = '👑';
         } else if (percentage >= 80) {
-            message = 'Excellent! You have deep knowledge of Persian traditions! 🌟';
+            message = 'EXCELLENT! 🌟 You have deep knowledge of Persian traditions!';
             emoji = '⭐';
         } else if (percentage >= 60) {
-            message = 'Good! You know quite a bit about Yalda Night! 🌙';
+            message = 'GOOD! 🌙 You know quite a bit about Yalda Night!';
             emoji = '✨';
         } else if (percentage >= 40) {
-            message = 'Nice effort! There\'s always more to learn about Yalda! 📚';
+            message = 'Nice effort! 📚 There\'s always more to learn about Yalda!';
             emoji = '📖';
         } else {
-            message = 'Keep exploring the beauty of Yalda traditions! 🌙✨';
+            message = 'Keep exploring! 🌙 The beauty of Yalda traditions awaits you!';
             emoji = '🌙';
         }
         
-        // Hide timer
-        const timerDisplay = document.getElementById('trivia-timer');
-        if (timerDisplay) timerDisplay.style.display = 'none';
+        // Hide quiz game and show results
+        this.quizGame.style.display = 'none';
+        this.quizResults.style.display = 'flex';
         
-        this.questionEl.innerHTML = `${emoji} Final Score: ${this.score}/${this.totalQuestions} (${percentage}%) ${emoji}`;
-        this.choicesEl.innerHTML = '';
-        this.feedbackEl.innerHTML = `<span class="trivia-finish">${message}</span>`;
-        this.nextBtn.style.display = 'none';
+        // Update results screen
+        const resultsTitle = document.getElementById('results-title');
+        const scoreDisplay = document.getElementById('score-display');
+        const playerNameDisplay = document.getElementById('player-name-display');
+        const resultsMessage = document.getElementById('results-message');
+        const resultsPrize = document.getElementById('results-prize');
+        
+        resultsTitle.textContent = isWinner ? '🏆 CONGRATULATIONS! YOU WON! 🏆' : 'Quiz Complete!';
+        scoreDisplay.textContent = `${this.score}/10 (${percentage}%)`;
+        playerNameDisplay.textContent = `🎭 ${this.playerName}`;
+        resultsMessage.innerHTML = `${emoji} ${message}`;
+        
+        if (isWinner) {
+            resultsPrize.style.display = 'block';
+            resultsPrize.innerHTML = `
+                🎁 <strong>PRIZE WINNER!</strong> 🎁<br>
+                You've secured your place on the Yalda Challenge Leaderboard!<br>
+                Your name will be announced as a winner!
+            `;
+            
+            // Submit winner to server
+            this.submitWinner();
+        } else {
+            resultsPrize.style.display = 'none';
+        }
+    }
+    
+    submitWinner() {
+        // Send winner data to server
+        const winnerData = {
+            name: this.playerName,
+            score: this.score,
+            percentage: Math.round((this.score / this.totalQuestions) * 100),
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+        };
+        
+        // Log to console (for development)
+        console.log('🏆 Winner Data:', winnerData);
+        
+        // Try to send to server (replace with your actual endpoint)
+        fetch('/.netlify/functions/submit-winner', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(winnerData)
+        }).catch(err => {
+            console.log('Local submission logged. Server integration can be added later.');
+            // Store locally if server is not available
+            this.storeWinnerLocally(winnerData);
+        });
+    }
+    
+    storeWinnerLocally(winnerData) {
+        // Store in browser's localStorage for demonstration
+        let winners = JSON.parse(localStorage.getItem('yaldaWinners') || '[]');
+        winners.push(winnerData);
+        localStorage.setItem('yaldaWinners', JSON.stringify(winners));
+    }
+    
+    restart() {
+        this.showIntro();
     }
 }
 

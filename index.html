@@ -258,18 +258,66 @@
         </div>
     </section>
 
-    <!-- Yalda Persian Trivia Section -->
+    <!-- Yalda Persian Trivia Quiz Section -->
     <section id="game" class="game-section chic-pomegranate-game">
         <div class="section-container">
-            <h2 class="section-title fancy-title">Yalda & Persian Trivia</h2>
-            <p class="game-intro">Test your knowledge of Yalda Night, Persian culture, and Hafez wisdom!</p>
+            <h2 class="section-title fancy-title">🏆 Yalda Wisdom Challenge 🏆</h2>
+            <p class="game-intro">Win Amazing Prizes! Answer 10 questions in under 3 minutes to claim victory!</p>
             
-            <div class="trivia-wrapper">
-                <div class="trivia-container">
-                    <div id="trivia-question" class="trivia-question"></div>
-                    <div id="trivia-choices" class="trivia-choices"></div>
-                    <div id="trivia-feedback" class="trivia-feedback"></div>
-                    <button id="trivia-next-btn" class="trivia-next-btn fancy-btn" style="display:none;">Next Question</button>
+            <!-- Pre-Quiz Screen -->
+            <div id="quiz-intro" class="quiz-intro">
+                <div class="quiz-intro-content">
+                    <h3>Welcome to the Yalda Challenge!</h3>
+                    <div class="quiz-rules">
+                        <p>📋 <strong>Rules:</strong></p>
+                        <ul>
+                            <li>✓ Answer 10 Yalda & Persian culture questions</li>
+                            <li>⏱️ You have 150 seconds (2.5 minutes)</li>
+                            <li>🎁 Get 8+ correct answers to WIN a prize!</li>
+                            <li>🏅 All winners will be announced on our leaderboard</li>
+                        </ul>
+                    </div>
+                    <div class="quiz-name-input">
+                        <label for="playerName">Enter your name to begin:</label>
+                        <input 
+                            type="text" 
+                            id="playerName" 
+                            placeholder="Your name here..." 
+                            maxlength="50"
+                            autocomplete="off"
+                        >
+                        <button id="quiz-start-btn" class="fancy-btn quiz-start-btn">🚀 Start Challenge!</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz Game Screen -->
+            <div id="quiz-game" class="quiz-game" style="display:none;">
+                <div class="trivia-wrapper">
+                    <div class="trivia-container">
+                        <div class="quiz-header">
+                            <span class="quiz-progress">Question <span id="quiz-current">1</span>/10</span>
+                            <div id="trivia-timer" class="trivia-timer">⏱️ Time: 2:30</div>
+                        </div>
+                        <div id="trivia-question" class="trivia-question"></div>
+                        <div id="trivia-choices" class="trivia-choices"></div>
+                        <div id="trivia-feedback" class="trivia-feedback"></div>
+                        <button id="trivia-next-btn" class="trivia-next-btn fancy-btn" style="display:none;">Next Question →</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Results Screen -->
+            <div id="quiz-results" class="quiz-results" style="display:none;">
+                <div class="results-content">
+                    <h3 id="results-title"></h3>
+                    <div class="results-score">
+                        <div class="score-display" id="score-display"></div>
+                        <div class="player-name-display" id="player-name-display"></div>
+                    </div>
+                    <div id="results-message" class="results-message"></div>
+                    <div id="results-prize" class="results-prize" style="display:none;"></div>
+                    <button id="quiz-restart-btn" class="fancy-btn quiz-restart-btn">🔄 Play Again</button>
                 </div>
             </div>
         </div>
