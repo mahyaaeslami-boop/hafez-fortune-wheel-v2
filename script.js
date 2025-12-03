@@ -1,4 +1,14 @@
-/* Hafez Fortune Wheel JavaScript - Enhanced */
+/* Hafez Fortune Wheel & Yalda Night Game - Enhanced */
+
+// Game Card Pairs - Yalda Night Themed
+const gameCardPairs = [
+    { emoji: '🌙', label: 'Moon' },
+    { emoji: '🍇', label: 'Grapes' },
+    { emoji: '🕯️', label: 'Candle' },
+    { emoji: '🍎', label: 'Pomegranate' },
+    { emoji: '❤️', label: 'Love' },
+    { emoji: '⭐', label: 'Star' }
+];
 
 // Yalda Night themed icons and their rotation angles
 const YALDA_ICONS = [
@@ -15,6 +25,98 @@ const YALDA_ICONS = [
     { symbol: '🌾', rotation: 0 },
     { symbol: '🥜', rotation: 0 }
 ];
+
+// Memory Game Class
+class MemoryGame {
+    constructor(boardId, resetBtnId, matchesId, movesId) {
+        this.board = document.getElementById(boardId);
+        this.resetBtn = document.getElementById(resetBtnId);
+        this.matchesDisplay = document.getElementById(matchesId);
+        this.movesDisplay = document.getElementById(movesId);
+        
+        this.cards = [];
+        this.flipped = [];
+        this.matched = 0;
+        this.moves = 0;
+        
+        this.init();
+    }
+    
+    init() {
+        this.board.innerHTML = '';
+        this.cards = [];
+        this.flipped = [];
+        this.matched = 0;
+        this.moves = 0;
+        this.updateDisplay();
+        
+        // Create pairs
+        const pairs = [...gameCardPairs, ...gameCardPairs];
+        pairs.sort(() => Math.random() - 0.5);
+        
+        pairs.forEach((pair, index) => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.dataset.emoji = pair.emoji;
+            card.dataset.label = pair.label;
+            card.textContent = '?';
+            card.addEventListener('click', () => this.flipCard(card));
+            
+            this.board.appendChild(card);
+            this.cards.push(card);
+        });
+        
+        this.resetBtn.addEventListener('click', () => this.init());
+    }
+    
+    flipCard(card) {
+        if (card.classList.contains('flipped') || card.classList.contains('matched') || this.flipped.length >= 2) {
+            return;
+        }
+        
+        card.classList.add('flipped');
+        card.textContent = card.dataset.emoji;
+        this.flipped.push(card);
+        
+        if (this.flipped.length === 2) {
+            this.moves++;
+            this.updateDisplay();
+            this.checkMatch();
+        }
+    }
+    
+    checkMatch() {
+        const [card1, card2] = this.flipped;
+        const isMatch = card1.dataset.emoji === card2.dataset.emoji;
+        
+        if (isMatch) {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            this.matched++;
+            this.updateDisplay();
+            this.flipped = [];
+            
+            if (this.matched === gameCardPairs.length) {
+                setTimeout(() => {
+                    alert('Congratulations! You matched all pairs! 🎉');
+                }, 300);
+            }
+        } else {
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.textContent = '?';
+                card2.textContent = '?';
+                this.flipped = [];
+            }, 600);
+        }
+    }
+    
+    updateDisplay() {
+        this.matchesDisplay.textContent = `${this.matched}/${gameCardPairs.length}`;
+        this.movesDisplay.textContent = this.moves;
+    }
+}
 
 class FortuneWheel {
     constructor(canvasId, spellText = false) {
@@ -48,6 +150,7 @@ class FortuneWheel {
         
         const segmentAngle = (Math.PI * 2) / this.segments;
         const colors = this.generateColors();
+
 
         for (let i = 0; i < this.segments; i++) {
             const startAngle = i * segmentAngle + this.currentRotation;
@@ -236,6 +339,10 @@ document.head.appendChild(style);
 
 // Initialize wheel when page loads
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Memory Game
+    const game = new MemoryGame('gameBoard', 'gameResetBtn', 'matches', 'moves');
+    
+    // Initialize Fortune Wheel
     const wheel = new FortuneWheel('wheelCanvas');
     
     // Smooth scroll navigation
