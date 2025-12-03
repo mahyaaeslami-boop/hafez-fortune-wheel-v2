@@ -1,4 +1,4 @@
-/* Hafez Fortune Wheel JavaScript */
+/* Hafez Fortune Wheel JavaScript - Enhanced */
 
 class FortuneWheel {
     constructor(canvasId, spellText = false) {
@@ -45,7 +45,7 @@ class FortuneWheel {
             this.ctx.fillStyle = colors[i % colors.length];
             this.ctx.fill();
 
-            // Draw border
+            // Draw border with gradient effect
             this.ctx.strokeStyle = '#d4af37';
             this.ctx.lineWidth = 2;
             this.ctx.stroke();
@@ -56,19 +56,19 @@ class FortuneWheel {
 
         // Draw center circle
         this.ctx.beginPath();
-        this.ctx.arc(this.centerX, this.centerY, 30, 0, Math.PI * 2);
+        this.ctx.arc(this.centerX, this.centerY, 35, 0, Math.PI * 2);
         this.ctx.fillStyle = '#d4af37';
         this.ctx.fill();
         this.ctx.strokeStyle = '#5d3a84';
-        this.ctx.lineWidth = 3;
+        this.ctx.lineWidth = 4;
         this.ctx.stroke();
 
-        // Draw center text
+        // Draw center decoration
         this.ctx.fillStyle = '#5d3a84';
         this.ctx.font = 'bold 14px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
-        this.ctx.fillText('SPIN', this.centerX, this.centerY);
+        this.ctx.fillText('HAFEZ', this.centerX, this.centerY);
     }
 
     generateColors() {
@@ -81,6 +81,8 @@ class FortuneWheel {
             '#5d3a84',
             '#9e4562',
             '#6d5a7a',
+            '#9d3e52',
+            '#7a4a72',
         ];
     }
 
@@ -94,7 +96,7 @@ class FortuneWheel {
         this.ctx.translate(textRadius, 0);
 
         this.ctx.fillStyle = '#d4af37';
-        this.ctx.font = 'bold 16px Arial';
+        this.ctx.font = 'bold 14px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
         
@@ -118,7 +120,7 @@ class FortuneWheel {
     }
 
     animateSpin(targetRotation, selectedSegment) {
-        const duration = 3000; // 3 seconds
+        const duration = 3500; // 3.5 seconds
         const startRotation = this.currentRotation;
         const startTime = Date.now();
 
@@ -150,36 +152,56 @@ class FortuneWheel {
         const fortuneNumber = document.getElementById('fortuneNumber');
         const fortuneText = document.getElementById('fortuneText');
         const fortuneTranslation = document.getElementById('fortuneTranslation');
+        const fortuneTheme = document.getElementById('fortuneTheme');
 
-        fortuneNumber.textContent = `#${segmentIndex + 1}`;
+        fortuneNumber.textContent = `#${fortune.number}`;
         fortuneText.textContent = fortune.farsi;
-        fortuneTranslation.textContent = `English: ${fortune.english}`;
+        fortuneTheme.textContent = `Theme: ${fortune.theme}`;
+        fortuneTranslation.textContent = fortune.english;
 
         // Add animation
         const card = document.getElementById('fortuneCard');
         card.style.animation = 'none';
         setTimeout(() => {
-            card.style.animation = 'fadeIn 0.5s ease-in-out';
+            card.style.animation = 'fadeIn 0.6s ease-in-out';
         }, 10);
     }
 
     playSound() {
-        // Create a simple beep sound
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.value = 800;
-        oscillator.type = 'sine';
-
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.2);
+        // Create a pleasant chime sound
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // First note
+            const osc1 = audioContext.createOscillator();
+            const gain1 = audioContext.createGain();
+            osc1.connect(gain1);
+            gain1.connect(audioContext.destination);
+            
+            osc1.frequency.value = 800;
+            osc1.type = 'sine';
+            gain1.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gain1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            osc1.start(audioContext.currentTime);
+            osc1.stop(audioContext.currentTime + 0.3);
+            
+            // Second note
+            const osc2 = audioContext.createOscillator();
+            const gain2 = audioContext.createGain();
+            osc2.connect(gain2);
+            gain2.connect(audioContext.destination);
+            
+            osc2.frequency.value = 1000;
+            osc2.type = 'sine';
+            gain2.gain.setValueAtTime(0.15, audioContext.currentTime + 0.15);
+            gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.45);
+            
+            osc2.start(audioContext.currentTime + 0.15);
+            osc2.stop(audioContext.currentTime + 0.45);
+        } catch (e) {
+            // Sound not supported, silently fail
+        }
     }
 
     attachEventListeners() {
@@ -199,11 +221,11 @@ style.textContent = `
     @keyframes fadeIn {
         from {
             opacity: 0;
-            transform: scale(0.95);
+            transform: scale(0.95) rotateY(20deg);
         }
         to {
             opacity: 1;
-            transform: scale(1);
+            transform: scale(1) rotateY(0deg);
         }
     }
 `;
@@ -212,4 +234,15 @@ document.head.appendChild(style);
 // Initialize wheel when page loads
 document.addEventListener('DOMContentLoaded', () => {
     const wheel = new FortuneWheel('wheelCanvas');
+    
+    // Smooth scroll navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
 });

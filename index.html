@@ -8,40 +8,222 @@
 </head>
 <body>
     <div class="yalda-background"></div>
+    <div class="stars"></div>
     
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">🌙 Hafez Faal</div>
+            <ul class="nav-menu">
+                <li><a href="#yalda">Yalda Night</a></li>
+                <li><a href="#hafez">Hafez & Faal</a></li>
+                <li><a href="#wheel">Fortune Wheel</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Header -->
     <header class="header">
-        <h1>Hafez Fortune Wheel</h1>
-        <p class="subtitle">Yalda Night - The Night of Destiny</p>
+        <div class="header-content">
+            <h1 class="title-main">Hafez Fortune Wheel</h1>
+            <p class="subtitle">شب یلدا - Yalda Night</p>
+            <p class="tagline">The Night of Destiny • The Winter Solstice Celebration</p>
+        </div>
+        <div class="header-decoration">
+            <span class="pomegranate">🍎</span>
+            <span class="pomegranate">🍇</span>
+            <span class="pomegranate">🌰</span>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="wheel-section">
-            <div class="wheel-container">
-                <canvas id="wheelCanvas" width="500" height="500"></canvas>
-                <div class="wheel-pointer"></div>
-            </div>
-            <button class="spin-button" id="spinButton">Spin the Wheel</button>
-        </div>
-
-        <div class="fortune-section">
-            <div class="fortune-card" id="fortuneCard">
-                <div class="fortune-header">Your Fortune</div>
-                <div class="fortune-number" id="fortuneNumber">-</div>
-                <div class="fortune-text" id="fortuneText">
-                    Click the button to spin the wheel and receive your fortune from Hafez
+    <!-- Yalda Night Section -->
+    <section id="yalda" class="yalda-section">
+        <div class="section-container">
+            <h2>About Yalda Night</h2>
+            <div class="section-content">
+                <div class="section-text">
+                    <h3>The Ancient Persian Celebration</h3>
+                    <p>
+                        Yalda Night (شب یلدا) is one of the most important celebrations in Persian culture, marking the longest night of the year and the winter solstice. 
+                        It falls on December 20-21 and celebrates the victory of light over darkness.
+                    </p>
+                    <p>
+                        The word "Yalda" means "birth" in Aramaic, symbolizing the birth of the sun. This ancient celebration dates back over 7,000 years to the Zoroastrian era 
+                        and continues to be a significant cultural and spiritual event for Persians worldwide.
+                    </p>
                 </div>
-                <div class="fortune-translation" id="fortuneTranslation"></div>
+                <div class="section-features">
+                    <div class="feature">
+                        <div class="feature-icon">🍇</div>
+                        <h4>Festive Foods</h4>
+                        <p>Pomegranates, nuts, watermelon, and dried fruits</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📚</div>
+                        <h4>Poetry Readings</h4>
+                        <p>Hafez, Rumi, and other great Persian poets</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                        <h4>Family Gathering</h4>
+                        <p>Families gather through the night</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🌙</div>
+                        <h4>Spiritual Renewal</h4>
+                        <p>Seeking divine guidance and wisdom</p>
+                    </div>
+                </div>
             </div>
-
-            <div class="info-section">
-                <h3>About Yalda Night</h3>
-                <p>Yalda Night is an ancient Persian celebration marking the Winter Solstice. On this longest night of the year, people gather to read poems, share fruits and nuts, and seek guidance through the wisdom of Hafez.</p>
+            <div class="yalda-details">
+                <div class="detail-card">
+                    <h4>Symbolism</h4>
+                    <p>
+                        Yalda represents the triumph of light over darkness, hope over despair, and good over evil. 
+                        The red pomegranate symbolizes the sun, while watermelon represents the rebirth of spring.
+                    </p>
+                </div>
+                <div class="detail-card">
+                    <h4>Traditions</h4>
+                    <p>
+                        On Yalda night, families gather in homes decorated with candles and fruits. They share poems, 
+                        stories, and food while staying awake until dawn to welcome the new sun. This night is considered 
+                        auspicious for seeking guidance through divination.
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2025 Hafez Fortune Wheel | Celebrating Yalda Night</p>
+    <!-- Hafez & Faal Section -->
+    <section id="hafez" class="hafez-section">
+        <div class="section-container">
+            <h2>Hafez & The Art of Faal</h2>
+            <div class="section-content">
+                <div class="hafez-intro">
+                    <div class="hafez-image">📖</div>
+                    <div class="hafez-bio">
+                        <h3>Khwajeh Shams al-Din Muhammad Hafez (1315-1390)</h3>
+                        <p>
+                            Hafez was a Persian poet and mystic of the 14th century, considered one of the greatest poets in the Persian language. 
+                            Born in Shiraz, Iran, Hafez was known for his lyrical poetry and spiritual wisdom that transcended religious and cultural boundaries.
+                        </p>
+                        <p>
+                            His collection of poems, known as the "Divan of Hafez," contains approximately 500 lyrical poems called "Ghazals" (gazels). 
+                            These poems explore themes of love, spirituality, mysticism, and the journey of the soul toward divine truth.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faal-tradition">
+                    <h3>The Tradition of Hafez Faal (Oracle)</h3>
+                    <p>
+                        "Hafez Faal" is an ancient Persian tradition of seeking guidance through randomly selecting verses from Hafez's poetry collection. 
+                        It is believed that the randomly chosen poem carries a message directly relevant to the seeker's current situation or questions.
+                    </p>
+                    
+                    <div class="faal-process">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Intention</h4>
+                                <p>The seeker focuses on a question or area of life</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Selection</h4>
+                                <p>A verse is randomly chosen from Hafez's poetry</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Reflection</h4>
+                                <p>The verse is contemplated for deeper meaning</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Guidance</h4>
+                                <p>The message guides the seeker's path forward</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faal-significance">
+                        <h4>Why Hafez?</h4>
+                        <p>
+                            Hafez's poetry is believed to contain profound spiritual wisdom that transcends time. His words address universal human experiences—
+                            love, loss, hope, transformation, and spiritual awakening. The randomness of selection combined with the depth of meaning in his verses 
+                            creates a powerful tool for introspection and guidance. Many people consider Hafez Faal not as fortune-telling, but as a mirror to reflect 
+                            upon their inner truths and life's direction.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Wheel Section -->
+    <section id="wheel" class="wheel-main-section">
+        <div class="section-container">
+            <h2>Spin the Fortune Wheel</h2>
+            <p class="wheel-intro-text">
+                Think of a question or intention, then spin the wheel to receive a message from Hafez. 
+                Each poem is selected from his top 100 greatest works, translated with love and care.
+            </p>
+            
+            <div class="wheel-content">
+                <div class="wheel-left">
+                    <div class="wheel-container">
+                        <canvas id="wheelCanvas" width="500" height="500"></canvas>
+                        <div class="wheel-pointer"></div>
+                    </div>
+                    <button class="spin-button" id="spinButton">✨ Spin the Wheel ✨</button>
+                    <div class="spin-instruction">Think of your question...</div>
+                </div>
+
+                <div class="wheel-right">
+                    <div class="fortune-card" id="fortuneCard">
+                        <div class="fortune-header">Your Fortune</div>
+                        <div class="fortune-number" id="fortuneNumber">-</div>
+                        <div class="fortune-poem">
+                            <div class="fortune-text-farsi" id="fortuneText">
+                                Click the button to spin the wheel and receive your fortune from Hafez
+                            </div>
+                            <div class="fortune-theme" id="fortuneTheme"></div>
+                        </div>
+                        <div class="fortune-divider"></div>
+                        <div class="fortune-translation" id="fortuneTranslation"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Yalda Night 2024</h4>
+                <p>Celebrating the victory of light over darkness</p>
+            </div>
+            <div class="footer-section">
+                <h4>Hafez Poetry</h4>
+                <p>Top 100 poems with authentic translations</p>
+            </div>
+            <div class="footer-section">
+                <h4>Persian Culture</h4>
+                <p>Ancient traditions, timeless wisdom</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Hafez Fortune Wheel | Celebrating Yalda Night 🌙</p>
+            <p>May your path be illuminated by wisdom and light</p>
+        </div>
     </footer>
 
     <script src="poems.js"></script>
