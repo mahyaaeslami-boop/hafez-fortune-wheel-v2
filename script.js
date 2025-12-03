@@ -64,7 +64,7 @@ const triviaQuestions = [
     }
 ];
 
-// Trivia Game Class
+// Trivia Game Class with Timer
 class TriviaGame {
     constructor(containerId, questionId, choicesId, feedbackId, nextBtnId) {
         this.container = document.getElementById(containerId);
@@ -77,10 +77,55 @@ class TriviaGame {
         this.score = 0;
         this.answered = false;
         this.totalQuestions = triviaQuestions.length;
-        
+        this.timePerQuestion = 15; // 15 seconds per question
+        this.totalTime = this.totalQuestions * this.timePerQuestion;
+        this.timeRemaining = this.totalTime;
+        this.timerInterval = null;
+        this.gameActive = true;
         this.shuffleQuestions();
+        this.startTimer();
         this.render();
         this.nextBtn.addEventListener('click', () => this.nextQuestion());
+    }
+    
+    startTimer() {
+        this.timerInterval = setInterval(() => {
+            this.timeRemaining--;
+            this.updateTimerDisplay();
+            
+            if (this.timeRemaining <= 0) {
+                this.endGame();
+            } else if (this.timeRemaining <= 5 && !this.answered) {
+                // Auto-answer with warning
+                this.choicesEl.style.opacity = '0.6';
+            }
+        }, 1000);
+    }
+    
+    updateTimerDisplay() {
+        const minutes = Math.floor(this.timeRemaining / 60);
+        const seconds = this.timeRemaining % 60;
+        const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Create or update timer display
+        let timerDisplay = document.getElementById('trivia-timer');
+        if (!timerDisplay) {
+            timerDisplay = document.createElement('div');
+            timerDisplay.id = 'trivia-timer';
+            timerDisplay.className = 'trivia-timer';
+            this.container.insertBefore(timerDisplay, this.container.firstChild);
+        }
+        
+        timerDisplay.textContent = `⏱️ Time: ${timeStr}`;
+        
+        // Change color when time is running out
+        if (this.timeRemaining <= 5) {
+            timerDisplay.style.color = '#ff6b9d';
+            timerDisplay.style.textShadow = '0 0 15px rgba(255, 107, 157, 0.6)';
+        } else if (this.timeRemaining <= 10) {
+            timerDisplay.style.color = '#d4af37';
+            timerDisplay.style.textShadow = '0 0 10px rgba(212, 175, 55, 0.4)';
+        }
     }
     
     shuffleQuestions() {
@@ -110,7 +155,7 @@ class TriviaGame {
     }
     
     selectAnswer(selectedIdx, question) {
-        if (this.answered) return;
+        if (this.answered || !this.gameActive) return;
         
         this.answered = true;
         const buttons = this.choicesEl.querySelectorAll('.trivia-choice');
@@ -131,31 +176,52 @@ class TriviaGame {
             this.feedbackEl.innerHTML = `<span class="trivia-incorrect">✗ Incorrect</span><span class="trivia-explanation">${question.explanation}</span>`;
         }
         
+        this.choicesEl.style.opacity = '1';
         this.nextBtn.style.display = 'inline-block';
     }
     
     nextQuestion() {
         this.currentQuestion++;
+        this.answered = false;
         this.render();
     }
     
+    endGame() {
+        this.gameActive = false;
+        clearInterval(this.timerInterval);
+        this.showResults();
+    }
+    
     showResults() {
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.gameActive = false;
+        
         const percentage = Math.round((this.score / this.totalQuestions) * 100);
         let message = '';
+        let emoji = '';
         
         if (percentage === 100) {
             message = 'Perfect! You are a true master of Yalda wisdom! 🎉';
+            emoji = '👑';
         } else if (percentage >= 80) {
             message = 'Excellent! You have deep knowledge of Persian traditions! 🌟';
+            emoji = '⭐';
         } else if (percentage >= 60) {
             message = 'Good! You know quite a bit about Yalda Night! 🌙';
+            emoji = '✨';
         } else if (percentage >= 40) {
             message = 'Nice effort! There\'s always more to learn about Yalda! 📚';
+            emoji = '📖';
         } else {
             message = 'Keep exploring the beauty of Yalda traditions! 🌙✨';
+            emoji = '🌙';
         }
         
-        this.questionEl.textContent = `You scored ${this.score}/${this.totalQuestions} (${percentage}%)`;
+        // Hide timer
+        const timerDisplay = document.getElementById('trivia-timer');
+        if (timerDisplay) timerDisplay.style.display = 'none';
+        
+        this.questionEl.innerHTML = `${emoji} Final Score: ${this.score}/${this.totalQuestions} (${percentage}%) ${emoji}`;
         this.choicesEl.innerHTML = '';
         this.feedbackEl.innerHTML = `<span class="trivia-finish">${message}</span>`;
         this.nextBtn.style.display = 'none';
