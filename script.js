@@ -98,6 +98,7 @@ class TriviaGame {
     setupEventListeners() {
         this.quizStartBtn.addEventListener('click', () => this.startQuiz());
         this.quizRestartBtn.addEventListener('click', () => this.restart());
+        this.nextBtn.addEventListener('click', () => this.nextQuestion());
         this.playerNameInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.startQuiz();
         });
@@ -194,6 +195,7 @@ class TriviaGame {
         this.choicesEl.innerHTML = '';
         this.feedbackEl.innerHTML = '';
         this.nextBtn.style.display = 'none';
+        this.nextBtn.disabled = false;
         this.answered = false;
         
         q.choices.forEach((choice, idx) => {
@@ -234,6 +236,8 @@ class TriviaGame {
     nextQuestion() {
         this.currentQuestion++;
         this.answered = false;
+        this.choicesEl.style.opacity = '1';
+        this.nextBtn.style.display = 'none';
         this.render();
     }
     
