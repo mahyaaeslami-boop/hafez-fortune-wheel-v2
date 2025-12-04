@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Hafez Fortune Wheel - Yalda Night 2025 🌙</title>
+    <meta name="description" content="Celebrate Yalda Night with Hafez fortune wheel and Persian cultural quiz. Experience 7,000 years of Persian tradition.">
+    <title>Hafez Fortune Wheel • Yalda Night 2025 🌙</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Animated Background -->
@@ -16,15 +17,30 @@
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
     
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#home" class="nav-logo">✨ Yalda Night</a>
+                <ul class="nav-menu">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#wheel">Fortune Wheel</a></li>
+                    <li><a href="#challenge">Challenge</a></li>
+                    <li><a href="#traditions">Traditions</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
     <!-- Hero Section -->
-    <section class="hero">
+    <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-badge">December 20-21 • Winter Solstice</div>
             <h1 class="hero-title">
                 <span class="title-line-1">Yalda Night</span>
                 <span class="title-line-2">شب یلدا</span>
             </h1>
-            <p class="hero-subtitle">7,000 Years of Light Conquering Darkness</p>
+            <p class="hero-subtitle">7,000 Years of Celebrating Light Over Darkness</p>
             <div class="hero-cta">
                 <a href="#wheel" class="cta-primary">✨ Spin Fortune Wheel</a>
                 <a href="#challenge" class="cta-secondary">🏆 Take Challenge</a>
@@ -33,29 +49,32 @@
         <div class="scroll-indicator">↓</div>
     </section>
 
-    <!-- Quick Info Cards -->
-    <section class="info-cards">
+    <!-- About Section -->
+    <section id="about" class="about-section">
         <div class="container">
-            <div class="card-grid">
-                <div class="info-card">
-                    <div class="card-emoji">🍇</div>
-                    <h3>Sacred Pomegranate</h3>
-                    <p>Ruby seeds symbolize the sun's rebirth</p>
+            <h2 class="section-title">🌙 The Story of Yalda</h2>
+            <p class="section-desc">The longest night of the year, celebrating hope and renewal</p>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="card-icon">🍇</div>
+                    <h3>Sacred Symbols</h3>
+                    <p>Pomegranates represent the sun's life force, watermelons the cycle of seasons, and nuts prosperity for the coming year.</p>
                 </div>
-                <div class="info-card">
-                    <div class="card-emoji">📖</div>
-                    <h3>Hafez Poetry</h3>
-                    <p>Divine wisdom from 14th century Persia</p>
+                <div class="about-card">
+                    <div class="card-icon">📖</div>
+                    <h3>Hafez Tradition</h3>
+                    <p>The 14th-century Persian poet Hafez's mystical verses guide seekers through life's questions with divine wisdom.</p>
                 </div>
-                <div class="info-card">
-                    <div class="card-emoji">🌙</div>
-                    <h3>Longest Night</h3>
-                    <p>Celebrating the return of light</p>
+                <div class="about-card">
+                    <div class="card-icon">🌙</div>
+                    <h3>Winter Solstice</h3>
+                    <p>Marking the longest night, families gather to celebrate light's victory over darkness and the sun's rebirth.</p>
                 </div>
-                <div class="info-card">
-                    <div class="card-emoji">✨</div>
-                    <h3>Ancient Tradition</h3>
-                    <p>Zoroastrian roots dating 7000+ years</p>
+                <div class="about-card">
+                    <div class="card-icon">✨</div>
+                    <h3>Ancient Heritage</h3>
+                    <p>Dating back 7,000+ years to Zoroastrian times, this celebration connects us to our ancestors' wisdom.</p>
                 </div>
             </div>
         </div>
@@ -65,23 +84,23 @@
     <section id="wheel" class="wheel-section">
         <div class="container">
             <h2 class="section-title">🎡 Hafez Fortune Wheel</h2>
-            <p class="section-desc">Think of a question from your heart, spin the wheel, and receive divine guidance</p>
+            <p class="section-desc">Close your eyes, ask your question, and let Hafez guide you</p>
             
-            <div class="wheel-container-wrapper">
-                <div class="wheel-display">
+            <div class="wheel-wrapper">
+                <div class="wheel-container">
                     <canvas id="fortuneWheel" width="500" height="500"></canvas>
                     <div class="wheel-pointer"></div>
-                    <button id="spinBtn" class="spin-btn">SPIN</button>
                 </div>
+                <button id="spinBtn" class="spin-btn">SPIN THE WHEEL</button>
+            </div>
                 
-                <div class="fortune-result" id="fortuneResult">
-                    <div class="fortune-icon">🌟</div>
-                    <h3>Your Fortune</h3>
-                    <div class="fortune-text" id="fortuneText">
-                        <p class="farsi-text">درِ میخانه گشاده به توکل برو</p>
-                        <p class="english-text">Enter the tavern's door with trust and courage</p>
-                        <span class="theme-badge">Divine Trust</span>
-                    </div>
+            <div class="fortune-result" id="fortuneResult">
+                <div class="fortune-icon">🌟</div>
+                <h3>Your Divine Message</h3>
+                <div class="fortune-text" id="fortuneText">
+                    <p class="farsi-text">در میخانه گشاده، به توکل برو</p>
+                    <p class="english-text">Enter the tavern's door with trust and courage</p>
+                    <span class="theme-badge">Divine Trust</span>
                 </div>
             </div>
         </div>
@@ -91,17 +110,17 @@
     <section id="challenge" class="challenge-section">
         <div class="container">
             <h2 class="section-title">🏆 Yalda Knowledge Challenge</h2>
-            <p class="section-desc">Test your knowledge • 10 Questions • Get 8+ to WIN!</p>
+            <p class="section-desc">Test your knowledge of Persian traditions • 10 Questions • Score 8+ to WIN!</p>
             
             <div id="quizContainer">
                 <!-- Quiz Start Screen -->
                 <div id="quizStart" class="quiz-start active">
                     <div class="quiz-icon">🎯</div>
-                    <h3>Ready to Test Your Knowledge?</h3>
+                    <h3>Are You Ready?</h3>
                     <div class="quiz-rules">
-                        <div class="rule-item">⏱️ 2.5 minutes time limit</div>
-                        <div class="rule-item">🎁 Score 8+ to earn certificate</div>
-                        <div class="rule-item">📚 Learn Persian culture & traditions</div>
+                        <div class="rule-item">⏱️ Complete within 2.5 minutes</div>
+                        <div class="rule-item">🎁 Score 8+ to earn a certificate</div>
+                        <div class="rule-item">📚 Learn fascinating cultural facts</div>
                     </div>
                     <input type="text" id="playerName" placeholder="Enter your name..." maxlength="30">
                     <button id="startQuizBtn" class="cta-primary">Start Challenge</button>
@@ -111,7 +130,7 @@
                 <div id="quizGame" class="quiz-game">
                     <div class="quiz-header">
                         <div class="quiz-progress">
-                            <span id="questionNum">1</span>/10
+                            Question <span id="questionNum">1</span> of 10
                         </div>
                         <div class="quiz-timer" id="timer">⏱️ 2:30</div>
                     </div>
@@ -120,7 +139,7 @@
                         <div id="choicesContainer" class="choices-grid"></div>
                         <div id="feedback" class="feedback"></div>
                     </div>
-                    <button id="nextBtn" class="next-btn">Next →</button>
+                    <button id="nextBtn" class="next-btn">Next Question →</button>
                 </div>
                 
                 <!-- Quiz Results Screen -->
@@ -132,29 +151,35 @@
     </section>
 
     <!-- Traditions -->
-    <section class="traditions">
+    <section id="traditions" class="traditions-section">
         <div class="container">
-            <h2 class="section-title">🕯️ Sacred Traditions</h2>
+            <h2 class="section-title">🕯️ Sacred Yalda Traditions</h2>
+            <p class="section-desc">Time-honored rituals that bring families together</p>
+            
             <div class="traditions-grid">
                 <div class="tradition-card">
                     <span class="tradition-num">01</span>
+                    <div class="tradition-icon">🌙</div>
                     <h3>Night Vigil</h3>
-                    <p>Stay awake through the longest night to greet the sunrise</p>
+                    <p>Families stay awake through the longest night, sharing stories and laughter until sunrise marks light's victory.</p>
                 </div>
                 <div class="tradition-card">
                     <span class="tradition-num">02</span>
+                    <div class="tradition-icon">📖</div>
                     <h3>Poetry Reading</h3>
-                    <p>Recite Hafez verses for guidance and spiritual connection</p>
+                    <p>Recite Hafez verses for spiritual guidance, seeking wisdom through the mystical art of Faal divination.</p>
                 </div>
                 <div class="tradition-card">
                     <span class="tradition-num">03</span>
+                    <div class="tradition-icon">🍇</div>
                     <h3>Sacred Feast</h3>
-                    <p>Share pomegranates, nuts, and fruits with loved ones</p>
+                    <p>Share pomegranates, watermelons, nuts, and dried fruits representing abundance and the sun's rebirth.</p>
                 </div>
                 <div class="tradition-card">
                     <span class="tradition-num">04</span>
-                    <h3>Hafez Faal</h3>
-                    <p>Seek divine wisdom through randomly selected poetry</p>
+                    <div class="tradition-icon">🔮</div>
+                    <h3>Storytelling</h3>
+                    <p>Elders share ancient tales of Persian kings and heroes, passing wisdom down through generations.</p>
                 </div>
             </div>
         </div>
@@ -163,19 +188,24 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>About Yalda</h4>
-                    <p>Celebrating 7,000+ years of Persian tradition and the eternal triumph of light over darkness</p>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>🌙 Yalda Night</h4>
+                    <p>Celebrating 7,000+ years of Persian tradition, marking the winter solstice and the triumph of light over darkness.</p>
+                    <p class="footer-date">December 20-21, 2025</p>
                 </div>
-                <div class="footer-section">
-                    <h4>Hafez (1315-1390)</h4>
-                    <p>Persian mystic poet whose divine verses guide seekers worldwide</p>
+                <div class="footer-col">
+                    <h4>📖 About Hafez</h4>
+                    <p>Shams-ud-Dīn Muhammad Hāfez-e Shīrāzī (1315-1390), master of Persian mystical poetry whose verses guide seekers worldwide.</p>
                 </div>
-                <div class="footer-section">
-                    <h4>© 2025 Mahya Eslami</h4>
-                    <p>All rights reserved. Crafted with love for Yalda Night celebration</p>
+                <div class="footer-col">
+                    <h4>✨ This Experience</h4>
+                    <p>An interactive celebration featuring 615 authentic Hafez poems with English translations and cultural education.</p>
                 </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Mahya Eslami • All Rights Reserved</p>
+                <p class="footer-tagline">Crafted with love and reverence for Persian culture 🍇</p>
             </div>
         </div>
     </footer>
@@ -184,7 +214,6 @@
     <script src="script.js"></script>
 </body>
 </html>
-    <div class="yalda-background"></div>
     <div class="stars"></div>
     
     <!-- Sophisticated Pomegranate Decorations -->
