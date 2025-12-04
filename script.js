@@ -472,22 +472,41 @@ class FortuneWheel {
         const segmentAngle = (Math.PI * 2) / this.segments;
         const colors = this.generateColors();
 
+        // Draw subtle wheel shadow/glow effect
+        this.ctx.beginPath();
+        this.ctx.arc(this.centerX, this.centerY, this.radius + 8, 0, Math.PI * 2);
+        this.ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
+        this.ctx.lineWidth = 8;
+        this.ctx.stroke();
 
         for (let i = 0; i < this.segments; i++) {
             const startAngle = i * segmentAngle + this.currentRotation;
             const endAngle = startAngle + segmentAngle;
+            const midAngle = (startAngle + endAngle) / 2;
 
-            // Draw segment
+            // Create gradient for each segment for premium depth
+            const gradient = this.ctx.createLinearGradient(
+                this.centerX + Math.cos(midAngle) * 0,
+                this.centerY + Math.sin(midAngle) * 0,
+                this.centerX + Math.cos(midAngle) * this.radius,
+                this.centerY + Math.sin(midAngle) * this.radius
+            );
+            const baseColor = colors[i % colors.length];
+            gradient.addColorStop(0, this.lightenColor(baseColor, 20));
+            gradient.addColorStop(0.5, baseColor);
+            gradient.addColorStop(1, this.darkenColor(baseColor, 20));
+
+            // Draw segment with gradient
             this.ctx.beginPath();
             this.ctx.moveTo(this.centerX, this.centerY);
             this.ctx.arc(this.centerX, this.centerY, this.radius, startAngle, endAngle);
             this.ctx.closePath();
-            this.ctx.fillStyle = colors[i % colors.length];
+            this.ctx.fillStyle = gradient;
             this.ctx.fill();
 
-            // Draw border with gradient effect
+            // Draw golden border for luxury effect
             this.ctx.strokeStyle = '#d4af37';
-            this.ctx.lineWidth = 2;
+            this.ctx.lineWidth = 2.5;
             this.ctx.stroke();
 
             // Draw text
@@ -511,18 +530,47 @@ class FortuneWheel {
         this.ctx.fillText('HAFEZ', this.centerX, this.centerY);
     }
 
+    // Helper method to lighten a color
+    lightenColor(color, percent) {
+        const num = parseInt(color.replace("#",""), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = (num >> 16) + amt;
+        const G = (num >> 8 & 0x00FF) + amt;
+        const B = (num & 0x0000FF) + amt;
+        return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 +
+            (G<255?G<1?0:G:255)*0x100 +
+            (B<255?B<1?0:B:255))
+            .toString(16).slice(1);
+    }
+
+    // Helper method to darken a color
+    darkenColor(color, percent) {
+        const num = parseInt(color.replace("#",""), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = (num >> 16) - amt;
+        const G = (num >> 8 & 0x00FF) - amt;
+        const B = (num & 0x0000FF) - amt;
+        return "#" + (0x1000000 + (R<1?0:R)*0x10000 +
+            (G<1?0:G)*0x100 +
+            (B<1?0:B))
+            .toString(16).slice(1);
+    }
+
     generateColors() {
+        // Sophisticated pomegranate and gold gradient palette
         return [
-            '#c41e3a',
-            '#8b0000',
-            '#dc143c',
-            '#8b1a1a',
-            '#b22222',
-            '#900000',
-            '#d41159',
-            '#a01535',
-            '#c41e3a',
-            '#7a0a0a',
+            '#c41e3a', // Deep pomegranate
+            '#d43f5a', // Pomegranate light
+            '#8b0000', // Dark burgundy
+            '#b22222', // Fire brick
+            '#dc143c', // Crimson
+            '#ff1744', // Bright red
+            '#8b1a1a', // Maroon
+            '#a01535', // Deep red
+            '#c41e3a', // Pomegranate
+            '#d41159', // Rose red
+            '#cc1a40', // Deep rose
+            '#9d0a2a', // Dark rose
         ];
     }
 
