@@ -224,9 +224,9 @@ class TriviaGame {
         
         if (selectedIdx === question.correct) {
             this.score++;
-            this.feedbackEl.innerHTML = `<span class="trivia-correct">✓ Correct!</span><span class="trivia-explanation">${question.explanation}</span>`;
+            this.feedbackEl.innerHTML = `<span class="trivia-correct">✓ Correct!</span><span class="trivia-explanation">💡 ${question.explanation}</span>`;
         } else {
-            this.feedbackEl.innerHTML = `<span class="trivia-incorrect">✗ Incorrect</span><span class="trivia-explanation">${question.explanation}</span>`;
+            this.feedbackEl.innerHTML = `<span class="trivia-incorrect">✗ Incorrect</span><span class="trivia-explanation">💡 ${question.explanation}</span>`;
         }
         
         this.choicesEl.style.opacity = '1';
@@ -297,10 +297,59 @@ class TriviaGame {
                 Your name will be announced as a winner!
             `;
             
+            // Show certificate
+            showCertificate(this.playerName, this.score, percentage);
+            
+            // Trigger confetti celebration
+            this.triggerConfetti();
+            this.playWinnerSound();
+            
             // Submit winner to server
             this.submitWinner();
         } else {
             resultsPrize.style.display = 'none';
+        }
+    }
+    
+    triggerConfetti() {
+        // Create confetti elements
+        const confettiCount = 50;
+        const confettiContainer = document.body;
+        
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.delay = Math.random() * 0.3 + 's';
+            confetti.textContent = ['🍇', '🌙', '✨', '🎉', '👑', '⭐', '🏆', '🎁'][Math.floor(Math.random() * 8)];
+            confettiContainer.appendChild(confetti);
+            
+            // Remove after animation
+            setTimeout(() => confetti.remove(), 3000);
+        }
+    }
+    
+    playWinnerSound() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const notes = [800, 1000, 1200, 1400];
+            
+            notes.forEach((freq, idx) => {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                
+                osc.frequency.value = freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.1, audioContext.currentTime + idx * 0.15);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + idx * 0.15 + 0.2);
+                
+                osc.start(audioContext.currentTime + idx * 0.15);
+                osc.stop(audioContext.currentTime + idx * 0.15 + 0.2);
+            });
+        } catch (e) {
+            // Sound not supported
         }
     }
     
@@ -336,6 +385,14 @@ class TriviaGame {
         let winners = JSON.parse(localStorage.getItem('yaldaWinners') || '[]');
         winners.push(winnerData);
         localStorage.setItem('yaldaWinners', JSON.stringify(winners));
+        
+        // Also update live scoreboard data
+        this.updateLiveScoreboard();
+    }
+    
+    updateLiveScoreboard() {
+        // Broadcast event for live scoreboard updates
+        window.dispatchEvent(new CustomEvent('winnerAdded'));
     }
     
     restart() {
@@ -592,6 +649,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'trivia-next-btn'
     );
     
+    // Initialize Live Scoreboard
+    initializeLiveScoreboard();
+    
     // Smooth scroll navigation
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -603,3 +663,60 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Live Scoreboard Management
+function initializeLiveScoreboard() {
+    displayRecentWinners();
+    
+    // Listen for winner updates
+    window.addEventListener('winnerAdded', () => {
+        displayRecentWinners();
+    });
+    
+    // Auto-refresh every 10 seconds
+    setInterval(() => {
+        displayRecentWinners();
+    }, 10000);
+}
+
+function displayRecentWinners() {
+    const winners = JSON.parse(localStorage.getItem('yaldaWinners') || '[]');
+    const scoreboard = document.getElementById('scoreboard');
+    const winnersList = document.getElementById('recent-winners-list');
+    
+    if (winners.length === 0) {
+        scoreboard.style.display = 'none';
+        return;
+    }
+    
+    scoreboard.style.display = 'block';
+    
+    // Sort by score (highest first) and get top 5
+    const topWinners = winners
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+    
+    winnersList.innerHTML = topWinners.map((winner, idx) => `
+        <div class="winner-item">
+            <div class="winner-info">
+                <div class="winner-name">#${idx + 1} - ${winner.name}</div>
+                <small style="color: var(--text-muted);">${new Date(winner.timestamp).toLocaleTimeString()}</small>
+            </div>
+            <div class="winner-score">${winner.score}/10</div>
+        </div>
+    `).join('');
+}
+
+// Certificate Display Function
+function showCertificate(playerName, score, percentage) {
+    const certificate = document.getElementById('certificate');
+    const certWinnerName = document.getElementById('cert-winner-name');
+    const certScoreText = document.getElementById('cert-score-text');
+    
+    if (certificate && score >= 8) {
+        certWinnerName.textContent = playerName;
+        certScoreText.textContent = `Achieved a Score of ${score}/10 (${percentage}%)`;
+        certificate.style.display = 'block';
+    }
+}
+

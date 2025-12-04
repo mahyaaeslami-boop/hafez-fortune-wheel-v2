@@ -253,6 +253,15 @@
                         <div class="fortune-divider"></div>
                         <div class="fortune-translation" id="fortuneTranslation"></div>
                     </div>
+                    
+                    <!-- Hafez Context -->
+                    <div class="hafez-context">
+                        <h4>✨ About Hafez Faal ✨</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            This ancient Persian tradition invites divine wisdom through the poetry of Hafez (1315-1390), 
+                            one of the greatest mystical poets of all time. Each spin reveals a message meant just for you.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -262,12 +271,24 @@
     <section id="game" class="game-section chic-pomegranate-game">
         <div class="section-container">
             <h2 class="section-title fancy-title">🏆 Yalda Wisdom Challenge 🏆</h2>
+            
+            <!-- Event Info Banner -->
+            <div class="event-info-banner">
+                <h3>🌙 Welcome to the Yalda Challenge! 🌙</h3>
+                <p>📅 Celebrating Yalda Night - The Longest Night of the Year</p>
+                <p>Test your knowledge of Persian culture and traditions while having fun!</p>
+            </div>
+            
             <p class="game-intro">Win Amazing Prizes! Answer 10 questions in under 3 minutes to claim victory!</p>
             
             <!-- Pre-Quiz Screen -->
             <div id="quiz-intro" class="quiz-intro">
                 <div class="quiz-intro-content">
                     <h3>Welcome to the Yalda Challenge!</h3>
+                    <div class="cultural-context">
+                        <strong>🌙 Yalda Night Significance:</strong> Yalda Night marks the Winter Solstice (December 20-21) and is one of the oldest celebrations in Persian culture, 
+                        dating back over 7,000 years. It celebrates the triumph of light over darkness and the birth/rebirth of the sun.
+                    </div>
                     <div class="quiz-rules">
                         <p>📋 <strong>Rules:</strong></p>
                         <ul>
@@ -317,7 +338,29 @@
                     </div>
                     <div id="results-message" class="results-message"></div>
                     <div id="results-prize" class="results-prize" style="display:none;"></div>
+                    
+                    <!-- Winner Certificate -->
+                    <div id="certificate" style="display:none;">
+                        <div class="certificate-container">
+                            <div class="certificate-title">🏆 Certificate of Achievement 🏆</div>
+                            <div class="certificate-line"></div>
+                            <p class="certificate-text">This Certificate is Proudly Presented to</p>
+                            <div class="certificate-winner-name" id="cert-winner-name"></div>
+                            <p class="certificate-text">For Demonstrating Exceptional Knowledge of<br><strong>Yalda Night & Persian Cultural Traditions</strong></p>
+                            <p class="certificate-text" id="cert-score-text"></p>
+                            <div class="certificate-seal">👑 ✨ 🌙</div>
+                        </div>
+                    </div>
+                    
                     <button id="quiz-restart-btn" class="fancy-btn quiz-restart-btn">🔄 Play Again</button>
+                </div>
+            </div>
+            
+            <!-- Live Scoreboard -->
+            <div class="scoreboard-container" id="scoreboard" style="display:none;">
+                <h3>🏅 Recent Winners</h3>
+                <div class="recent-winners" id="recent-winners-list">
+                    <p style="text-align: center; color: var(--text-muted);">No winners yet...</p>
                 </div>
             </div>
         </div>
