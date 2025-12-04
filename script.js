@@ -448,67 +448,53 @@ class FortuneWheel {
         }
         
         this.ctx = this.canvas.getContext('2d');
-        this.segments = poems.length;
+        this.segments = poems ? poems.length : 100;
         this.currentRotation = 0;
         this.isSpinning = false;
         this.spinButton = document.getElementById('spinButton');
         
-        console.log(`Wheel initialized: ${this.segments} segments, Canvas: ${this.canvas.width}x${this.canvas.height}`);
+        // CRITICAL: Set canvas display size BEFORE scaling
+        this.canvas.style.width = this.canvas.width + 'px';
+        this.canvas.style.height = this.canvas.height + 'px';
         
-        this.setupCanvas();
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width *= dpr;
+        this.canvas.height *= dpr;
+        this.ctx.scale(dpr, dpr);
+        
+        this.displayWidth = parseInt(this.canvas.style.width);
+        this.displayHeight = parseInt(this.canvas.style.height);
+        this.centerX = this.displayWidth / 2;
+        this.centerY = this.displayHeight / 2;
+        this.radius = Math.min(this.displayWidth, this.displayHeight) / 2 - 10;
+        
+        console.log(`✓ Wheel initialized:`, {
+            segments: this.segments,
+            displaySize: `${this.displayWidth}x${this.displayHeight}`,
+            dpr: dpr,
+            center: `${this.centerX},${this.centerY}`,
+            radius: this.radius
+        });
+        
         this.drawWheel();
         this.attachEventListeners();
     }
 
-    setupCanvas() {
-        // Store display dimensions
-        const displayWidth = this.canvas.width;
-        const displayHeight = this.canvas.height;
-        
-        // Get device pixel ratio for proper rendering
-        const dpr = window.devicePixelRatio || 1;
-        
-        // Set actual resolution for crisp rendering
-        this.canvas.width = displayWidth * dpr;
-        this.canvas.height = displayHeight * dpr;
-        
-        // Scale context to match device pixels
-        this.ctx.scale(dpr, dpr);
-        
-        // Store display dimensions for later use
-        this.displayWidth = displayWidth;
-        this.displayHeight = displayHeight;
-        
-        // Center coordinates in display size (not device pixels)
-        this.centerX = displayWidth / 2;
-        this.centerY = displayHeight / 2;
-        this.radius = Math.min(displayWidth, displayHeight) / 2 - 10;
-        
-        console.log(`Canvas setup: Display ${displayWidth}x${displayHeight}, DPR: ${dpr}, Center: ${this.centerX},${this.centerY}, Radius: ${this.radius}`);
-    }
-
     drawWheel() {
         try {
-            // Clear using display dimensions
-            this.ctx.clearRect(0, 0, this.displayWidth, this.displayHeight);
+            // Clear canvas
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+            this.ctx.fillRect(0, 0, this.displayWidth, this.displayHeight);
             
             const segmentAngle = (Math.PI * 2) / this.segments;
             const colors = this.generateColors();
-            
-            console.log(`Drawing wheel: ${this.segments} segments, each angle: ${segmentAngle}`);
 
-            // Draw subtle wheel shadow/glow effect
-            this.ctx.beginPath();
-            this.ctx.arc(this.centerX, this.centerY, this.radius + 8, 0, Math.PI * 2);
-            this.ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
-            this.ctx.lineWidth = 8;
-            this.ctx.stroke();
-
+            // Draw all segments
             for (let i = 0; i < this.segments; i++) {
                 const startAngle = i * segmentAngle + this.currentRotation;
                 const endAngle = startAngle + segmentAngle;
 
-                // Draw segment with solid color (simpler, more reliable)
+                // Draw segment
                 this.ctx.beginPath();
                 this.ctx.moveTo(this.centerX, this.centerY);
                 this.ctx.arc(this.centerX, this.centerY, this.radius, startAngle, endAngle);
@@ -516,34 +502,31 @@ class FortuneWheel {
                 this.ctx.fillStyle = colors[i % colors.length];
                 this.ctx.fill();
 
-                // Draw golden border
+                // Draw border
                 this.ctx.strokeStyle = '#d4af37';
-                this.ctx.lineWidth = 2.5;
+                this.ctx.lineWidth = 1.5;
                 this.ctx.stroke();
-
-                // Draw text
-                this.drawSegmentText(i, startAngle, endAngle, segmentAngle);
             }
 
             // Draw center circle
             this.ctx.beginPath();
-            this.ctx.arc(this.centerX, this.centerY, 35, 0, Math.PI * 2);
+            this.ctx.arc(this.centerX, this.centerY, 30, 0, Math.PI * 2);
             this.ctx.fillStyle = '#d4af37';
             this.ctx.fill();
             this.ctx.strokeStyle = '#8b0000';
-            this.ctx.lineWidth = 4;
+            this.ctx.lineWidth = 3;
             this.ctx.stroke();
 
-            // Draw center decoration
+            // Draw center text
             this.ctx.fillStyle = '#8b0000';
-            this.ctx.font = 'bold 14px Arial';
+            this.ctx.font = 'bold 12px Arial';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText('HAFEZ', this.centerX, this.centerY);
             
-            console.log('Wheel drawn successfully');
+            console.log(`✓ Drew ${this.segments} segments`);
         } catch (err) {
-            console.error('Error drawing wheel:', err);
+            console.error('❌ Error drawing wheel:', err);
         }
     }
 
