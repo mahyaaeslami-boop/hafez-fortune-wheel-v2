@@ -454,16 +454,24 @@ class FortuneWheel {
     }
 
     setupCanvas() {
-        const dpr = window.devicePixelRatio || 1;
-        const rect = this.canvas.getBoundingClientRect();
+        // Use the canvas display size (500x500 from HTML attributes)
+        const displayWidth = this.canvas.width;
+        const displayHeight = this.canvas.height;
         
-        this.canvas.width = rect.width * dpr;
-        this.canvas.height = rect.height * dpr;
+        // Get device pixel ratio for proper rendering
+        const dpr = window.devicePixelRatio || 1;
+        
+        // Set actual resolution for crisp rendering
+        this.canvas.width = displayWidth * dpr;
+        this.canvas.height = displayHeight * dpr;
+        
+        // Scale context to match device pixels
         this.ctx.scale(dpr, dpr);
         
-        this.centerX = rect.width / 2;
-        this.centerY = rect.height / 2;
-        this.radius = Math.min(rect.width, rect.height) / 2 - 10;
+        // Center coordinates in display size (not device pixels)
+        this.centerX = displayWidth / 2;
+        this.centerY = displayHeight / 2;
+        this.radius = Math.min(displayWidth, displayHeight) / 2 - 10;
     }
 
     drawWheel() {

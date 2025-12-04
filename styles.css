@@ -2234,3 +2234,129 @@ section h2 {
         font-size: 0.95rem;
     }
 }
+
+/* Compact Grid Layouts - Visual-First Design */
+.yalda-grid-compact,
+.traditions-grid-compact,
+.why-yalda-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.yalda-card,
+.tradition-item,
+.why-card {
+    background: linear-gradient(135deg, rgba(93, 58, 132, 0.3) 0%, rgba(196, 30, 58, 0.2) 100%);
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 30px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 8px 32px rgba(196, 30, 58, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.yalda-card:hover,
+.tradition-item:hover,
+.why-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 15px 40px rgba(196, 30, 58, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-light-gold);
+}
+
+.card-icon-large,
+.tradition-icon,
+.why-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+    animation: gentle-bounce 2s ease-in-out infinite;
+}
+
+@keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+.yalda-card h4,
+.tradition-item h3,
+.why-card h3 {
+    font-size: 1.2rem;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.yalda-card p,
+.tradition-item p,
+.why-card p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.hafez-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.hafez-card {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(196, 30, 58, 0.15) 100%);
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+}
+
+.hafez-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+}
+
+.hafez-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.hafez-card h3 {
+    font-size: 1.3rem;
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+}
+
+.hafez-card p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.hafez-card small {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Ensure responsive behavior */
+@media (max-width: 768px) {
+    .yalda-grid-compact,
+    .traditions-grid-compact,
+    .why-yalda-grid-compact,
+    .hafez-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
