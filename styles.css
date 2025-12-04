@@ -1712,6 +1712,78 @@ section h2 {
     font-style: italic;
     display: block;
     font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+.trivia-fun-fact {
+    background: rgba(212, 175, 55, 0.1);
+    border-left: 3px solid var(--accent-gold);
+    color: var(--accent-light-gold);
+    display: block;
+    padding: 10px 15px;
+    margin-top: 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Why Yalda Section */
+.yalda-why-section {
+    padding: 60px 20px;
+}
+
+.why-yalda-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.why-card {
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.15) 0%, rgba(212, 175, 55, 0.1) 100%);
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(196, 30, 58, 0.15);
+    transition: all 0.3s ease;
+}
+
+.why-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.2) 0%, rgba(212, 175, 55, 0.15) 100%);
+}
+
+.why-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.why-card h3 {
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.why-card p {
+    color: var(--text-light);
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.why-yalda-summary {
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+    border: 2px solid var(--accent-gold);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+@media (max-width: 768px) {
+    .why-yalda-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .trivia-finish {

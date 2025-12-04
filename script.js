@@ -1,63 +1,78 @@
 /* Hafez Fortune Wheel & Yalda Night Trivia - Enhanced */
 
-// Yalda & Persian Trivia Questions
+// Yalda & Persian Trivia Questions with Educational Context
 const triviaQuestions = [
     {
         question: "What does 'Yalda' mean?",
         choices: ["Birth", "Light", "Night", "Fire"],
         correct: 0,
-        explanation: "Yalda means 'birth' in Aramaic, symbolizing the rebirth of the sun after the longest night."
+        explanation: "Yalda means 'birth' in Aramaic, symbolizing the rebirth of the sun after the longest night.",
+        funFact: "🌅 Did you know? In Persian tradition, Yalda Night represents the literal birth of the new sun and the triumph of light over darkness. This concept dates back to Zoroastrian beliefs over 7,000 years ago!"
     },
     {
         question: "Which Persian poet's work is traditionally used for Hafez Faal?",
         choices: ["Rumi", "Hafez", "Saadi", "Ferdowsi"],
         correct: 1,
-        explanation: "Hafez (1315-1390) is the master of the Faal tradition, with his Divan containing ~500 mystical ghazals."
+        explanation: "Hafez (1315-1390) is the master of the Faal tradition, with his Divan containing ~500 mystical ghazals.",
+        funFact: "📖 Did you know? Hafez's poetry has been used for divination for over 600 years. Even the famous German poet Goethe was fascinated by Hafez's work and called him 'divine'!"
     },
     {
         question: "What fruit symbolizes the sun on Yalda Night?",
         choices: ["Watermelon", "Pomegranate", "Apple", "Orange"],
         correct: 1,
-        explanation: "The pomegranate's red seeds symbolize the sun and the life force of rebirth during Yalda."
+        explanation: "The pomegranate's red seeds symbolize the sun and the life force of rebirth during Yalda.",
+        funFact: "🍇 Did you know? Pomegranate symbolizes abundance and fertility in Persian culture. Its ruby-red seeds represent the sun's life-giving energy. Breaking open a pomegranate on Yalda is a blessing ritual!"
     },
     {
         question: "On which date does Yalda Night occur?",
         choices: ["December 20-21", "March 20-21", "September 22-23", "June 20-21"],
         correct: 0,
-        explanation: "Yalda marks the winter solstice, the longest night of the year, around December 20-21."
+        explanation: "Yalda marks the winter solstice, the longest night of the year, around December 20-21.",
+        funFact: "🌙 Did you know? December 21st is the winter solstice—the longest night of the year. After this night, days start getting longer again, symbolizing hope and renewal!"
     },
     {
         question: "Which nut is traditionally eaten during Yalda Night?",
         choices: ["Cashew", "Pistachio", "Almond", "Walnut"],
         correct: 1,
-        explanation: "Pistachios are a classic and beloved treat during Yalda celebrations in Persian culture."
+        explanation: "Pistachios are a classic and beloved treat during Yalda celebrations in Persian culture.",
+        funFact: "🥜 Did you know? Pistachios come from Iran, which produces over 50% of the world's pistachios! They symbolize health and abundance in Persian culture and are a must-have during Yalda celebrations."
     },
     {
         question: "How many Ghazals (poems) does Hafez's Divan contain?",
         choices: ["Around 200", "Around 300", "Around 500", "Around 700"],
         correct: 2,
-        explanation: "The Divan of Hafez contains approximately 500 lyrical poems called Ghazals."
+        explanation: "The Divan of Hafez contains approximately 500 lyrical poems called Ghazals.",
+        funFact: "📚 Did you know? Each Ghazal is a self-contained poem that can be read independently, yet they all speak to universal truths about love, spirituality, and the human journey!"
     },
     {
         question: "What is the main purpose of staying awake on Yalda Night?",
         choices: ["To celebrate the harvest", "To greet the new sun at dawn", "To prepare for winter", "To light fires"],
         correct: 1,
-        explanation: "The vigil through the longest night celebrates the triumph of light and waiting for the sun's return."
+        explanation: "The vigil through the longest night celebrates the triumph of light and waiting for the sun's return.",
+        funFact: "✨ Did you know? Families stay awake through the entire night, sharing stories, poetry, and food. This tradition is called 'Shab Chardah'—watching through the night until the sun rises at dawn!"
     },
     {
         question: "Which city was Hafez born in?",
         choices: ["Isfahan", "Shiraz", "Tehran", "Tabriz"],
         correct: 1,
-        explanation: "Hafez was born in Shiraz, Iran, one of the great centers of Persian culture and poetry."
+        explanation: "Hafez was born in Shiraz, Iran, one of the great centers of Persian culture and poetry.",
+        funFact: "🏛️ Did you know? Shiraz was the capital of Persian empires and home to many great poets and philosophers. Hafez's tomb in Shiraz is still visited by millions seeking wisdom and blessing!"
     },
     {
         question: "What is 'Sofreh Yalda'?",
         choices: ["A prayer", "A ceremonial spread of fruits and nuts", "A song", "A ritual fire"],
         correct: 1,
-        explanation: "Sofreh Yalda is the sacred table spread with fruits, nuts, and sweets for the celebration."
+        explanation: "Sofreh Yalda is the sacred table spread with fruits, nuts, and sweets for the celebration.",
+        funFact: "🍱 Did you know? The Sofreh Yalda includes pomegranates, watermelons, dried fruits, nuts, honey, and wheat sprouts. Each item symbolizes different blessings: health, prosperity, abundance, and rebirth!"
     },
     {
         question: "Which element represents the eternal light on Yalda Night?",
+        choices: ["Stars", "Candles and Fire", "Pomegranate juice", "Gold coins"],
+        correct: 1,
+        explanation: "Candles and fire symbolize the eternal light and the sun's triumph over darkness.",
+        funFact: "🕯️ Did you know? In ancient Zoroastrianism, fire is sacred and represents divine light and truth. Lighting candles during Yalda Night symbolizes the eternal struggle between good and evil, light and darkness!"
+    }
+];
         choices: ["Stars", "Candles and Fire", "Pomegranate juice", "Gold coins"],
         correct: 1,
         explanation: "Candles and fire symbolize the eternal light and the sun's triumph over darkness."
@@ -224,9 +239,17 @@ class TriviaGame {
         
         if (selectedIdx === question.correct) {
             this.score++;
-            this.feedbackEl.innerHTML = `<span class="trivia-correct">✓ Correct!</span><span class="trivia-explanation">💡 ${question.explanation}</span>`;
+            this.feedbackEl.innerHTML = `
+                <span class="trivia-correct">✓ Correct!</span>
+                <span class="trivia-explanation">💡 ${question.explanation}</span>
+                <span class="trivia-fun-fact">${question.funFact}</span>
+            `;
         } else {
-            this.feedbackEl.innerHTML = `<span class="trivia-incorrect">✗ Incorrect</span><span class="trivia-explanation">💡 ${question.explanation}</span>`;
+            this.feedbackEl.innerHTML = `
+                <span class="trivia-incorrect">✗ Incorrect</span>
+                <span class="trivia-explanation">💡 ${question.explanation}</span>
+                <span class="trivia-fun-fact">${question.funFact}</span>
+            `;
         }
         
         this.choicesEl.style.opacity = '1';
@@ -560,8 +583,26 @@ class FortuneWheel {
         fortuneIcon.innerHTML = `<span class="yalda-icon">${randomIcon.symbol}</span>`;
         
         fortuneText.textContent = fortune.farsi;
-        fortuneTheme.textContent = `Theme: ${fortune.theme}`;
-        fortuneTranslation.textContent = fortune.english;
+        fortuneTheme.innerHTML = `
+            <div style="margin-top: 10px;">
+                <strong style="color: var(--accent-gold);">Theme:</strong> ${fortune.theme}
+            </div>
+            <div style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);">
+                <strong>📖 About this verse:</strong> This poem from Hafez speaks to universal truths about the human experience, 
+                offering guidance through mystical wisdom. Reflect on how these words might speak to your current journey.
+            </div>
+        `;
+        
+        fortuneTranslation.innerHTML = `
+            <div style="margin-bottom: 15px;">
+                <strong style="color: var(--accent-light-gold);">✨ English Translation:</strong><br>
+                <em>${fortune.english}</em>
+            </div>
+            <div style="padding: 10px; background: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--accent-gold); border-radius: 5px; font-size: 0.9rem;">
+                <strong style="color: var(--accent-gold);">💭 Reflect:</strong> How does this message relate to your question or life situation? 
+                Hafez's wisdom often reveals itself through personal interpretation.
+            </div>
+        `;
 
         // Add animation
         const card = document.getElementById('fortuneCard');
