@@ -555,6 +555,13 @@
                 if (e.key === 'Enter') authenticate();
             });
             checkAuthentication();
+            
+            // Auto-refresh dashboard every 5 seconds
+            setInterval(() => {
+                if (sessionStorage.getItem('adminAuthenticated')) {
+                    displayDashboard();
+                }
+            }, 5000);
         });
     </script>
 </body>
