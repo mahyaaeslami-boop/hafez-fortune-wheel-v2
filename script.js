@@ -443,7 +443,7 @@ class FortuneWheel {
     constructor(canvasId, spellText = false) {
         this.canvas = document.getElementById(canvasId);
         if (!this.canvas) {
-            console.error(`Canvas with id "${canvasId}" not found!`);
+            console.error(`Canvas not found: ${canvasId}`);
             return;
         }
         
@@ -453,81 +453,56 @@ class FortuneWheel {
         this.isSpinning = false;
         this.spinButton = document.getElementById('spinButton');
         
-        // CRITICAL: Set canvas display size BEFORE scaling
-        this.canvas.style.width = this.canvas.width + 'px';
-        this.canvas.style.height = this.canvas.height + 'px';
+        // Simple, reliable canvas setup
+        this.canvas.width = 500;
+        this.canvas.height = 500;
+        this.centerX = 250;
+        this.centerY = 250;
+        this.radius = 240;
         
-        const dpr = window.devicePixelRatio || 1;
-        this.canvas.width *= dpr;
-        this.canvas.height *= dpr;
-        this.ctx.scale(dpr, dpr);
-        
-        this.displayWidth = parseInt(this.canvas.style.width);
-        this.displayHeight = parseInt(this.canvas.style.height);
-        this.centerX = this.displayWidth / 2;
-        this.centerY = this.displayHeight / 2;
-        this.radius = Math.min(this.displayWidth, this.displayHeight) / 2 - 10;
-        
-        console.log(`✓ Wheel initialized:`, {
-            segments: this.segments,
-            displaySize: `${this.displayWidth}x${this.displayHeight}`,
-            dpr: dpr,
-            center: `${this.centerX},${this.centerY}`,
-            radius: this.radius
-        });
+        console.log(`Wheel ready: ${this.segments} segments`);
         
         this.drawWheel();
         this.attachEventListeners();
     }
 
     drawWheel() {
-        try {
-            // Clear canvas
-            this.ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-            this.ctx.fillRect(0, 0, this.displayWidth, this.displayHeight);
+        // Clear with transparency
+        this.ctx.clearRect(0, 0, 500, 500);
+        
+        const segmentAngle = (Math.PI * 2) / this.segments;
+        const colors = this.generateColors();
+
+        // Draw segments
+        for (let i = 0; i < this.segments; i++) {
+            const angle = i * segmentAngle + this.currentRotation;
             
-            const segmentAngle = (Math.PI * 2) / this.segments;
-            const colors = this.generateColors();
-
-            // Draw all segments
-            for (let i = 0; i < this.segments; i++) {
-                const startAngle = i * segmentAngle + this.currentRotation;
-                const endAngle = startAngle + segmentAngle;
-
-                // Draw segment
-                this.ctx.beginPath();
-                this.ctx.moveTo(this.centerX, this.centerY);
-                this.ctx.arc(this.centerX, this.centerY, this.radius, startAngle, endAngle);
-                this.ctx.closePath();
-                this.ctx.fillStyle = colors[i % colors.length];
-                this.ctx.fill();
-
-                // Draw border
-                this.ctx.strokeStyle = '#d4af37';
-                this.ctx.lineWidth = 1.5;
-                this.ctx.stroke();
-            }
-
-            // Draw center circle
             this.ctx.beginPath();
-            this.ctx.arc(this.centerX, this.centerY, 30, 0, Math.PI * 2);
-            this.ctx.fillStyle = '#d4af37';
+            this.ctx.moveTo(this.centerX, this.centerY);
+            this.ctx.arc(this.centerX, this.centerY, this.radius, angle, angle + segmentAngle);
+            this.ctx.closePath();
+            this.ctx.fillStyle = colors[i % colors.length];
             this.ctx.fill();
-            this.ctx.strokeStyle = '#8b0000';
-            this.ctx.lineWidth = 3;
+            this.ctx.strokeStyle = '#d4af37';
+            this.ctx.lineWidth = 1;
             this.ctx.stroke();
-
-            // Draw center text
-            this.ctx.fillStyle = '#8b0000';
-            this.ctx.font = 'bold 12px Arial';
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            this.ctx.fillText('HAFEZ', this.centerX, this.centerY);
-            
-            console.log(`✓ Drew ${this.segments} segments`);
-        } catch (err) {
-            console.error('❌ Error drawing wheel:', err);
         }
+
+        // Center circle
+        this.ctx.beginPath();
+        this.ctx.arc(this.centerX, this.centerY, 30, 0, Math.PI * 2);
+        this.ctx.fillStyle = '#d4af37';
+        this.ctx.fill();
+        this.ctx.strokeStyle = '#8b0000';
+        this.ctx.lineWidth = 3;
+        this.ctx.stroke();
+
+        // Center text
+        this.ctx.fillStyle = '#8b0000';
+        this.ctx.font = 'bold 12px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        this.ctx.fillText('HAFEZ', this.centerX, this.centerY);
     }
 
     // Helper method to lighten a color
