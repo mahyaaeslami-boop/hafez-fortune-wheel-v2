@@ -442,11 +442,18 @@ const YALDA_ICONS = [
 class FortuneWheel {
     constructor(canvasId, spellText = false) {
         this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) {
+            console.error(`Canvas with id "${canvasId}" not found!`);
+            return;
+        }
+        
         this.ctx = this.canvas.getContext('2d');
         this.segments = poems.length;
         this.currentRotation = 0;
         this.isSpinning = false;
         this.spinButton = document.getElementById('spinButton');
+        
+        console.log(`Wheel initialized: ${this.segments} segments, Canvas: ${this.canvas.width}x${this.canvas.height}`);
         
         this.setupCanvas();
         this.drawWheel();
@@ -476,58 +483,68 @@ class FortuneWheel {
         this.centerX = displayWidth / 2;
         this.centerY = displayHeight / 2;
         this.radius = Math.min(displayWidth, displayHeight) / 2 - 10;
+        
+        console.log(`Canvas setup: Display ${displayWidth}x${displayHeight}, DPR: ${dpr}, Center: ${this.centerX},${this.centerY}, Radius: ${this.radius}`);
     }
 
     drawWheel() {
-        // Clear using display dimensions
-        this.ctx.clearRect(0, 0, this.displayWidth, this.displayHeight);
-        
-        const segmentAngle = (Math.PI * 2) / this.segments;
-        const colors = this.generateColors();
+        try {
+            // Clear using display dimensions
+            this.ctx.clearRect(0, 0, this.displayWidth, this.displayHeight);
+            
+            const segmentAngle = (Math.PI * 2) / this.segments;
+            const colors = this.generateColors();
+            
+            console.log(`Drawing wheel: ${this.segments} segments, each angle: ${segmentAngle}`);
 
-        // Draw subtle wheel shadow/glow effect
-        this.ctx.beginPath();
-        this.ctx.arc(this.centerX, this.centerY, this.radius + 8, 0, Math.PI * 2);
-        this.ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
-        this.ctx.lineWidth = 8;
-        this.ctx.stroke();
-
-        for (let i = 0; i < this.segments; i++) {
-            const startAngle = i * segmentAngle + this.currentRotation;
-            const endAngle = startAngle + segmentAngle;
-
-            // Draw segment with solid color (simpler, more reliable)
+            // Draw subtle wheel shadow/glow effect
             this.ctx.beginPath();
-            this.ctx.moveTo(this.centerX, this.centerY);
-            this.ctx.arc(this.centerX, this.centerY, this.radius, startAngle, endAngle);
-            this.ctx.closePath();
-            this.ctx.fillStyle = colors[i % colors.length];
-            this.ctx.fill();
-
-            // Draw golden border
-            this.ctx.strokeStyle = '#d4af37';
-            this.ctx.lineWidth = 2.5;
+            this.ctx.arc(this.centerX, this.centerY, this.radius + 8, 0, Math.PI * 2);
+            this.ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
+            this.ctx.lineWidth = 8;
             this.ctx.stroke();
 
-            // Draw text
-            this.drawSegmentText(i, startAngle, endAngle, segmentAngle);
+            for (let i = 0; i < this.segments; i++) {
+                const startAngle = i * segmentAngle + this.currentRotation;
+                const endAngle = startAngle + segmentAngle;
+
+                // Draw segment with solid color (simpler, more reliable)
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.centerX, this.centerY);
+                this.ctx.arc(this.centerX, this.centerY, this.radius, startAngle, endAngle);
+                this.ctx.closePath();
+                this.ctx.fillStyle = colors[i % colors.length];
+                this.ctx.fill();
+
+                // Draw golden border
+                this.ctx.strokeStyle = '#d4af37';
+                this.ctx.lineWidth = 2.5;
+                this.ctx.stroke();
+
+                // Draw text
+                this.drawSegmentText(i, startAngle, endAngle, segmentAngle);
+            }
+
+            // Draw center circle
+            this.ctx.beginPath();
+            this.ctx.arc(this.centerX, this.centerY, 35, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#d4af37';
+            this.ctx.fill();
+            this.ctx.strokeStyle = '#8b0000';
+            this.ctx.lineWidth = 4;
+            this.ctx.stroke();
+
+            // Draw center decoration
+            this.ctx.fillStyle = '#8b0000';
+            this.ctx.font = 'bold 14px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText('HAFEZ', this.centerX, this.centerY);
+            
+            console.log('Wheel drawn successfully');
+        } catch (err) {
+            console.error('Error drawing wheel:', err);
         }
-
-        // Draw center circle
-        this.ctx.beginPath();
-        this.ctx.arc(this.centerX, this.centerY, 35, 0, Math.PI * 2);
-        this.ctx.fillStyle = '#d4af37';
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#8b0000';
-        this.ctx.lineWidth = 4;
-        this.ctx.stroke();
-
-        // Draw center decoration
-        this.ctx.fillStyle = '#8b0000';
-        this.ctx.font = 'bold 14px Arial';
-        this.ctx.textAlign = 'center';
-        this.ctx.textBaseline = 'middle';
-        this.ctx.fillText('HAFEZ', this.centerX, this.centerY);
     }
 
     // Helper method to lighten a color
