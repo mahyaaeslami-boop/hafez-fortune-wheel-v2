@@ -454,7 +454,7 @@ class FortuneWheel {
     }
 
     setupCanvas() {
-        // Use the canvas display size (500x500 from HTML attributes)
+        // Store display dimensions
         const displayWidth = this.canvas.width;
         const displayHeight = this.canvas.height;
         
@@ -468,6 +468,10 @@ class FortuneWheel {
         // Scale context to match device pixels
         this.ctx.scale(dpr, dpr);
         
+        // Store display dimensions for later use
+        this.displayWidth = displayWidth;
+        this.displayHeight = displayHeight;
+        
         // Center coordinates in display size (not device pixels)
         this.centerX = displayWidth / 2;
         this.centerY = displayHeight / 2;
@@ -475,7 +479,8 @@ class FortuneWheel {
     }
 
     drawWheel() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Clear using display dimensions
+        this.ctx.clearRect(0, 0, this.displayWidth, this.displayHeight);
         
         const segmentAngle = (Math.PI * 2) / this.segments;
         const colors = this.generateColors();
@@ -490,29 +495,16 @@ class FortuneWheel {
         for (let i = 0; i < this.segments; i++) {
             const startAngle = i * segmentAngle + this.currentRotation;
             const endAngle = startAngle + segmentAngle;
-            const midAngle = (startAngle + endAngle) / 2;
 
-            // Create gradient for each segment for premium depth
-            const gradient = this.ctx.createLinearGradient(
-                this.centerX + Math.cos(midAngle) * 0,
-                this.centerY + Math.sin(midAngle) * 0,
-                this.centerX + Math.cos(midAngle) * this.radius,
-                this.centerY + Math.sin(midAngle) * this.radius
-            );
-            const baseColor = colors[i % colors.length];
-            gradient.addColorStop(0, this.lightenColor(baseColor, 20));
-            gradient.addColorStop(0.5, baseColor);
-            gradient.addColorStop(1, this.darkenColor(baseColor, 20));
-
-            // Draw segment with gradient
+            // Draw segment with solid color (simpler, more reliable)
             this.ctx.beginPath();
             this.ctx.moveTo(this.centerX, this.centerY);
             this.ctx.arc(this.centerX, this.centerY, this.radius, startAngle, endAngle);
             this.ctx.closePath();
-            this.ctx.fillStyle = gradient;
+            this.ctx.fillStyle = colors[i % colors.length];
             this.ctx.fill();
 
-            // Draw golden border for luxury effect
+            // Draw golden border
             this.ctx.strokeStyle = '#d4af37';
             this.ctx.lineWidth = 2.5;
             this.ctx.stroke();
